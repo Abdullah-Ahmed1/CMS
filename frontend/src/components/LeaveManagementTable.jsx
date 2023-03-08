@@ -54,7 +54,7 @@ export default function LeaveManagementTable() {
               <TableCell sx ={{padding:"40px"}}  >
                 <Grid2 container flexDirection={"row"} justifyContent={"space-between"}>
                 <div>{i+1}</div>
-                <button>sdkfsn</button>
+                {/* <button>sdkfsn</button> */}
                 </Grid2>
                 
               </TableCell>
