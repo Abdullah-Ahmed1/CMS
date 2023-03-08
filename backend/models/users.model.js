@@ -36,6 +36,12 @@ const userSchema = new mongoose.Schema({
     },
     leaves:{
        type:Number 
+    },
+    currentProject : {
+        type : {
+            type:mongoose.Schema.Types.ObjectId,   
+             ref:"Project"
+        }
     }
 
 })

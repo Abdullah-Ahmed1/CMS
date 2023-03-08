@@ -20,10 +20,7 @@ module.exports = {
 addMemberToPorject : async(req,res)=>{
     const {project_id,user_id} = req.body;
     const userId = req.params.userId 
-    console.log(req.body)
     try{
-        // console.log(req.params.projectId)
-        // console.log(req.params.userId)
         console.log("add member to project reached")
 
         const project  =  await Project.findOne({_id:project_id})
