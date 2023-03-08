@@ -41,7 +41,8 @@ export default function LeaveManagementTable() {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Days for {month[new Date().getMonth()]}</TableCell>
+            <TableCell> {month[new Date().getMonth()]}</TableCell>
+            <TableCell>Report</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -49,7 +50,13 @@ export default function LeaveManagementTable() {
             <TableRow
               key={i}
               sx={{ '&:last-child td, &:last-child th': { border: 0 },cursor :"pointer" ,  "&:hover":{backgroundColor:"grey",color:"white"} ,padding:"20px" }}
-              onClick = {()=>setOpen(true)}
+              onClick = {()=>{
+                if(new Date().getDate()> i){
+                    setOpen(true)
+                }
+                
+                
+            }}
             >
               <TableCell sx ={{padding:"40px"}}  >
                 <Grid2 container flexDirection={"row"} justifyContent={"space-between"}>
@@ -58,7 +65,18 @@ export default function LeaveManagementTable() {
                 </Grid2>
                 
               </TableCell>
-              {/* <TableCell align="right">{row.fat}</TableCell> */}
+              <TableCell align="left">
+              {
+               new Date().getDate()> i ? (
+                <>
+                <h4>Current Project : Staples </h4>
+                <h5>Manager : </h5>
+                <h5>Reason for :  </h5>
+                </>
+               ):<></>
+              }
+               </TableCell>
+            
               {/* <TableCell align="right">{row.carbs}</TableCell> */}              
             </TableRow>
           ))}

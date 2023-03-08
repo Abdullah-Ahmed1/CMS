@@ -1,9 +1,11 @@
 import LeaveManagementTable from "../components/LeaveManagementTable"
+import NavBar from "../components/NavBar"
 
 const LeaveManagementPage = ()=>{
     return(
         <div>
-            <h1>Leave Management Page</h1>
+           <NavBar/> 
+            <h3>Leave Management</h3>
             <LeaveManagementTable/>
         </div>
     )
