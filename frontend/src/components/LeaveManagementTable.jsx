@@ -26,17 +26,21 @@ const month = ["January","February","March","April","May","June","July","August"
 
 
 export default function LeaveManagementTable() {
+    const [reason ,setReason] = React.useState("")
+    const [days,setDays] = React.useState("")
     const [open, setOpen] = React.useState(false);
-    const handleClickOpen = () => {
-        setOpen(true);
-      };
-    
+   
       const handleClose = () => {
         setOpen(false);
       };
+
+      const handleSubmit = ()=>{
+
+        setOpen(false);
+      }
   return (
     <>
-    <LeaveManagementDialog open = {open} handleClose = {handleClose} />
+    <LeaveManagementDialog open = {open} handleClose = {handleClose} handleSubmit = {handleSubmit} />
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
@@ -71,7 +75,7 @@ export default function LeaveManagementTable() {
                 <>
                 <h4>Current Project : Staples </h4>
                 <h5>Manager : </h5>
-                <h5>Reason for :  </h5>
+                {/* <h5>Reason for : </h5> */}
                 </>
                ):<></>
               }

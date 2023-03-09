@@ -52,7 +52,7 @@ module.exports={
                 status:"failure",
                 message:"Invalid username or password"
             })
-        if(user.password !== req.body.password){
+        else if(user.password !== req.body.password){
             res.status(400).send({
                 status:"failure",
                 message:"Invalid username or password"
