@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import { useEffect,useState } from "react";
 import axios from 'axios'
 import ProjectsTable from "../components/Projects";
-const HomePage = ()=>{
+const HomePage = ({userId})=>{
         const [user,setUser] = useState({})
         const [projects,setProjects] = useState([])
     useEffect(()=>{

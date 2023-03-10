@@ -26,12 +26,12 @@ const month = ["January","February","March","April","May","June","July","August"
 
 
 
-export default function LeaveManagementTable({userId}) {
+export default function LeaveManagementTable({userId,user}) {
     const [reason ,setReason] = React.useState("")
     const [days,setDays] = React.useState("")
     const [open, setOpen] = React.useState(false);
     const [status, setStatus] = React.useState('Present');
-   
+    console.log("user-->",user)
       const handleClose = () => {
         setOpen(false);
       };
@@ -66,7 +66,7 @@ export default function LeaveManagementTable({userId}) {
       }
   return (
     <>
-    <LeaveManagementDialog open = {open} handleClose = {handleClose} days = {days} handleChangeDays = {handleChangeDays} reason = {reason}  handleChangeReason = {handleChangeReason} handleChangeStatus = {handleChangeStatus} status = {status}  handleSubmit = {handleSubmit} />
+    <LeaveManagementDialog open = {open} user = {user} handleClose = {handleClose} days = {days} handleChangeDays = {handleChangeDays} reason = {reason}  handleChangeReason = {handleChangeReason} handleChangeStatus = {handleChangeStatus} status = {status}  handleSubmit = {handleSubmit} />
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
@@ -97,8 +97,17 @@ export default function LeaveManagementTable({userId}) {
               {
                new Date().getDate()> i ? (
                 <>
-                <h4>Current Project : Staples </h4>
-                <h5>Manager : </h5>
+                {
+                  user.map((item)=>{
+                    return(
+                      <>
+                      <h4>Current Project :{ item.title}</h4>
+                      <h5>Manager : {item.manager}</h5>
+                      </>
+                    )      
+                  })
+                }
+                {/* <h4>Current Project : Staples </h4> */}
                 <h5>Status : </h5>
                 {/* <h5>Reason for : </h5> */}
                 </>

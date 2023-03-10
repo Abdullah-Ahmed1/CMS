@@ -98,6 +98,9 @@ module.exports={
         console.log(userId)
         try{
             const user =  await User.findById({_id:userId})
+            .populate({
+                path : 'currentProjects'
+            })
             if(user){
                 res.status(200).send({
                     status:"success",
@@ -114,6 +117,7 @@ module.exports={
         }
         
     },
+
     deleteUserById : async(req,res)=>{
         const userId = req.params.id 
         try{

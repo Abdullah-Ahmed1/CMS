@@ -5,7 +5,8 @@ const DailyReport = Mongoose.model("DailyReport");
 module.exports = {
 
     addReport  : async(req,res)=>{
-        const userId = req.params.userId
+        try{  
+          const userId = req.params.userId
         await  DailyReport.create({
             status : req.body.status,
             resaonOfLeave : req.body.reason,
@@ -16,6 +17,30 @@ module.exports = {
         console.log(req.params.userId)
         console.log(req.body)
         console.log("reached")
+    }catch(err){
+        console.log(err)
+    }
+    },
+    getReport  : async(req,res)=>{
+         try{
+            const userId = req.params.userId
+            console.log("reached get report controller")
+    
+              const reports = await DailyReport.findMany({
+                user : userId
+            })
+
+            res.status(200).send({
+                message : "success",
+                reports : reports 
+            })
+
+        }catch(err){
+            console.log(err)
+        }
+       
+
+        
     }
 
 }

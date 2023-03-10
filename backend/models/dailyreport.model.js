@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const dailyReportSchema = new mongoose.Schema({
-    Date : {
+    date : {
         type:String
     },
     status:{
