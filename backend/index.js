@@ -18,6 +18,8 @@ const userRouter = require('./routes/userRoute')
 app.use('/',userRouter)
 const porjectRouter = require('./routes/projectRoute')
 app.use('/projects',porjectRouter)
+const LeaveMangementRoute = require('./routes/LeaveMangementRoute')
+app.use('/projects',LeaveMangementRoute)
 app.listen(3333,()=>{
     console.log("app is running on port 3333")
 })

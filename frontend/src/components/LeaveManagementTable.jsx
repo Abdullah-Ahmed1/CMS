@@ -8,6 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import LeaveManagementDialog from './LeaveManagementDialog';
 import Grid2 from '@mui/material/Unstable_Grid2'
+import axios from 'axios';
 
 // function createData(name, calories, fat, carbs, protein) {
 //   return { name, calories, fat, carbs, protein };
@@ -25,22 +26,47 @@ const month = ["January","February","March","April","May","June","July","August"
 
 
 
-export default function LeaveManagementTable() {
+export default function LeaveManagementTable({userId}) {
     const [reason ,setReason] = React.useState("")
     const [days,setDays] = React.useState("")
     const [open, setOpen] = React.useState(false);
+    const [status, setStatus] = React.useState('Present');
    
       const handleClose = () => {
         setOpen(false);
       };
+      const handleChangeStatus = (event) => {
+        console.log("status--->",event.target.value)
+        setStatus(event.target.value);
+      };
+      const handleChangeReason = (event)=>{
+        console.log("reason--->",event.target.value)
+        setReason(event.target.value)
+      }
+      const handleChangeDays = (event)=>{
+        console.log("reason--->",event.target.value)
+        setDays(event.target.value)
+      }
 
-      const handleSubmit = ()=>{
+      const handleSubmit = async()=>{
+        console.log("----> handle submit reached")
+          const data ={
+            status : status,
+            reason: reason,
+            days : days
 
-        setOpen(false);
+          }
+          console.log("data",data)
+          setOpen(false);
+
+           const response  = await axios.post(`http://localhost:3333/projects/add/${userId}`,data)
+           console.log("add report response",response)
+
+      
       }
   return (
     <>
-    <LeaveManagementDialog open = {open} handleClose = {handleClose} handleSubmit = {handleSubmit} />
+    <LeaveManagementDialog open = {open} handleClose = {handleClose} days = {days} handleChangeDays = {handleChangeDays} reason = {reason}  handleChangeReason = {handleChangeReason} handleChangeStatus = {handleChangeStatus} status = {status}  handleSubmit = {handleSubmit} />
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
@@ -58,8 +84,6 @@ export default function LeaveManagementTable() {
                 if(new Date().getDate()> i){
                     setOpen(true)
                 }
-                
-                
             }}
             >
               <TableCell sx ={{padding:"40px"}}  >
@@ -75,6 +99,7 @@ export default function LeaveManagementTable() {
                 <>
                 <h4>Current Project : Staples </h4>
                 <h5>Manager : </h5>
+                <h5>Status : </h5>
                 {/* <h5>Reason for : </h5> */}
                 </>
                ):<></>

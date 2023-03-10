@@ -1,12 +1,12 @@
 import LeaveManagementTable from "../components/LeaveManagementTable"
 import NavBar from "../components/NavBar"
 
-const LeaveManagementPage = ()=>{
+const LeaveManagementPage = ({userId})=>{
     return(
         <div>
            <NavBar/> 
             <h3>Leave Management</h3>
-            <LeaveManagementTable/>
+            <LeaveManagementTable userId = {userId}/>
         </div>
     )
 }

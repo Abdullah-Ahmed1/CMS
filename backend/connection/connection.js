@@ -16,3 +16,4 @@ try{
 module.exports = mongoose.connect;
 require("../models/users.model");
 require("../models/projects.model");
+require("../models/dailyreport.model");

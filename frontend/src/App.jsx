@@ -12,13 +12,14 @@ import {
 
 function App() {
   const [count, setCount] = useState(0)
+  const userId = '64081d344d9fbcae0698c5b3'
 
   return (
     <div className="App">
       <Router>
         <Routes>
-        <Route path='/'  element = {<HomePage/>}/>
-        <Route path='/leave-management'  element = {<LeaveManagementPage/>}/>
+        <Route path='/'  element = {<HomePage   userId = {userId} />}/>
+        <Route path='/leave-management'  element = {<LeaveManagementPage  userId = {userId} />}/>
         </Routes>
       </Router>
      

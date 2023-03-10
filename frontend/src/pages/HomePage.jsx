@@ -9,7 +9,7 @@ const HomePage = ()=>{
         const [user,setUser] = useState({})
         const [projects,setProjects] = useState([])
     useEffect(()=>{
-        const userId = '64081d344d9fbcae0698c5b3'
+        // const userId = '64081d344d9fbcae0698c5b3'
         async function getuser(){
             const user =  await axios.get(`http://localhost:3333/show-user/${userId}`)
             console.log("---->",user)

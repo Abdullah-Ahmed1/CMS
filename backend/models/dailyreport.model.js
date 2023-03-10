@@ -11,6 +11,10 @@ const dailyReportSchema = new mongoose.Schema({
     },
     DaysOfLeave :{
         type: String 
+    },
+    user : {
+        type:mongoose.Schema.Types.ObjectId,   
+        ref:"User"
     }
 })
 mongoose.model('DailyReport',dailyReportSchema);

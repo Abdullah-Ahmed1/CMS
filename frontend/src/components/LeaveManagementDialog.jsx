@@ -10,19 +10,15 @@ import LeaveManagementDialogRadioButton from './LeaveManagementDialogRadioButton
 
 
 
-export default function LeaveManagementDialog({open,handleClose,handleSubmit}) {
+export default function LeaveManagementDialog({open,handleClose,handleSubmit,status,days,reason,handleChangeStatus,handleChangeReason,handleChangeDays}) {
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('md');
-  const [status, setStatus] = React.useState('Present');
+ 
 
-  const [reason,setReason] = React.useState('')
-  const [days,setDays] = React.useState('') 
+  // const [reason,setReason] = React.useState('')
+  // const [days,setDays] = React.useState('') 
 
-  console.log("--*", reason)
-  console.log("--*", days)
-  const handleChange = (event) => {
-    setStatus(event.target.value);
-  };
+ 
 
 
 //   const handleClickOpen = () => {
@@ -58,17 +54,17 @@ export default function LeaveManagementDialog({open,handleClose,handleSubmit}) {
             <h4>Current Project: Staples </h4>
             <h4>Project Manager: M Jawad </h4>
             
-            <LeaveManagementDialogRadioButton status = {status} handleChange = {handleChange} />
+            <LeaveManagementDialogRadioButton status = {status} handleChange = {handleChangeStatus} />
             {
               status ==='Absent'? (
                 <>
                 <div style={{display:"flex" ,flexDirection:"row",width:"50%",justifyContent:"space-between",alignItems:"center"}}>
                 <h4>Reason of Leave : </h4>
-                <TextField  value={reason} onChange = {(e)=> setReason(e.target.value) }  id="outlined-basic" size='small' label="Reason" variant="outlined" />
+                <TextField  value={reason} onChange = {(e)=> handleChangeReason(e) }  id="outlined-basic" size='small' label="Reason" variant="outlined" />
                 </div>
                 <div style={{display:"flex" ,flexDirection:"row",width:"50%",justifyContent:"space-between",alignItems:"center"}}>
                 <h4>Days of Leave : </h4>
-                <TextField  value={days}  onChange = {(e)=> setDays(e.target.value) } id="outlined-basic" size='small' label="Days" variant="outlined" />
+                <TextField  type={'number'} value={days}  onChange = {(e)=> handleChangeDays(e) } id="outlined-basic" size='small' label="Days" variant="outlined" />
                 </div>  
                 </>  
               ):(
