@@ -8,11 +8,11 @@ import TextField from '@mui/material/TextField';
 import LeaveManagementDialogRadioButton from './LeaveManagementDialogRadioButton';
 
 
-export default function LeaveManagementDialog({open,user,handleClose,handleSubmit,status,days,reason,handleChangeStatus,handleChangeReason,handleChangeDays}) {
+export default function LeaveManagementDialog({open,user,current,handleClose,handleSubmit,status,days,reason,handleChangeStatus,handleChangeReason,handleChangeDays}) {
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('md');
  
-
+  console.log("********>",current)
   // const [reason,setReason] = React.useState('')
   // const [days,setDays] = React.useState('') 
 

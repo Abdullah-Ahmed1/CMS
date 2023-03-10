@@ -5,6 +5,7 @@ import NavBar from "../components/NavBar"
 
 const LeaveManagementPage = ({userId})=>{
     const  [user,setUser] = useState([])
+    const [reports,setResports] = useState([])
     useEffect(()=>{
          axios.get(`http://localhost:3333/show-user/${userId}`)
          .then((res)=>{
@@ -14,11 +15,19 @@ const LeaveManagementPage = ({userId})=>{
          })
     },[])
 
+    useEffect(()=>{
+        axios.get(`http://localhost:3333/leaveManagement/getLeaves/${userId}`)
+        .then((res)=>{
+          console.log("reports--->",res.data.reports)
+          setResports(res.data.reports)
+        })
+    },[])
+
     return(
         <div>
            <NavBar/> 
             <h3>Leave Management</h3>
-            <LeaveManagementTable user ={user} userId = {userId}/>
+            <LeaveManagementTable  reports = {reports} user ={user} userId = {userId}/>
         </div>
     )
 }
