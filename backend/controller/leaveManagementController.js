@@ -6,13 +6,15 @@ module.exports = {
 
     addReport  : async(req,res)=>{
         console.log("!!!!!!",req.body)
+        console.log("add report--*--",req.body.row)
+        const date = new Date(`${new Date().getMonth()}/${req.body.row}/${new Date().getFullYear()}`)
         try{  
           const userId = req.params.userId
         await  DailyReport.create({
             status : req.body.status,
             resaonOfLeave : req.body.reason,
             DaysOfLeave : req.body.days,
-            date : new Date(),
+            date : date,
             user:  userId
         })
         console.log(req.params.userId)
@@ -27,11 +29,10 @@ module.exports = {
             const userId = req.params.userId
             console.log("!!!!!!",req.params.userId)
             console.log("reached get report controller")
-    
-              const reports = await DailyReport.find({
+            const reports = await DailyReport.find({
                 user : userId
             })
-
+            
             res.status(200).send({
                 message : "success",
                 reports : reports 

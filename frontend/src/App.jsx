@@ -10,6 +10,8 @@ import {
   Link
 } from "react-router-dom";
 import Hierarchy from './pages/HierarchyPage'
+import LoginForm from './pages/LoginPage'
+import RegisterForm from './pages/RegisterForm'
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -23,6 +25,9 @@ function App() {
         <Route path='/'  element = {<HomePage   userId = {userId} />}/>
         <Route path='/leave-management'  element = {<LeaveManagementPage  userId = {userId} />}/>
         <Route path='/hierarchy'  element = {<Hierarchy  userId = {userId} />}/>
+        <Route path='/login'  element = {<LoginForm  />}/>
+        <Route path='/register'  element = {<RegisterForm  />}/>
+
         </Routes>
       </Router>
      

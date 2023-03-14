@@ -9,13 +9,15 @@ import Paper from '@mui/material/Paper';
 import LeaveManagementDialog from './LeaveManagementDialog';
 import Grid2 from '@mui/material/Unstable_Grid2'
 import axios from 'axios';
+import DateSnackbar from './DateSnackbar';
 
 
 const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
 
-export default function sLeaveManagementTable({userId,user,reports}) {
+export default function sLeaveManagementTable({userId,projects,reports}) {
 
+  const [openSnack, setOpenSnack] = React.useState(false);
 
     const [reason ,setReason] = React.useState("")
     const [days,setDays] = React.useState("")
@@ -23,7 +25,8 @@ export default function sLeaveManagementTable({userId,user,reports}) {
     const [status, setStatus] = React.useState('Present');
     const [current,setCurrent] = React.useState(0);
     const [dayCount,setDayCount] = React.useState([]);
-  
+    const [row,setRow] = React.useState(0); 
+      console.log("reached it" ,row)
       const handleClose = () => {
         setOpen(false);
       };
@@ -37,9 +40,23 @@ export default function sLeaveManagementTable({userId,user,reports}) {
         setDays(event.target.value)
       }
 
+
+
+      
+  const handleCloseSnack = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnack(false);
+  };
+
+
       const handleSubmit = async()=>{
         console.log("----> handle submit reached")
+        
           const data ={
+            row : row,
             status : status,
             reason: reason,
             days : days
@@ -47,6 +64,7 @@ export default function sLeaveManagementTable({userId,user,reports}) {
           }
           console.log("data",data)
           setOpen(false);
+
 
            const response  = await axios.post(`http://localhost:3333/leaveManagement/add/${userId}`,data)
            console.log("add report response",response)
@@ -67,7 +85,8 @@ export default function sLeaveManagementTable({userId,user,reports}) {
       }
   return (
     <>
-    <LeaveManagementDialog open = {open} current = {current} user = {user} handleClose = {handleClose} days = {days} handleChangeDays = {handleChangeDays} reason = {reason}  handleChangeReason = {handleChangeReason} handleChangeStatus = {handleChangeStatus} status = {status}  handleSubmit = {handleSubmit} />
+    <DateSnackbar  handleCloseSnack  = {handleCloseSnack} open =  {openSnack}/>
+    <LeaveManagementDialog open = {open} current = {current} user = {projects} handleClose = {handleClose} days = {days} handleChangeDays = {handleChangeDays} reason = {reason}  handleChangeReason = {handleChangeReason} handleChangeStatus = {handleChangeStatus} status = {status}  handleSubmit = {handleSubmit} />
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
@@ -85,6 +104,9 @@ export default function sLeaveManagementTable({userId,user,reports}) {
                   setCurrent(()=>i)
                 if(new Date().getDate()> i){
                     setOpen(true)
+                    setRow(() => i )
+                }else{
+                  setOpenSnack(true)
                 }
             }}
             >
@@ -94,70 +116,28 @@ export default function sLeaveManagementTable({userId,user,reports}) {
                 </Grid2>
               </TableCell>
 
-              <TableCell align="left">
-              {
-               new Date().getDate()> i ? (
-                
-                   reports.map((item2)=> {
-                    console.log("item2",new Date(item2.date).getDate() ==i+1)
-                    return new Date(item2.date).getDate() == i+1 ?(
-                    
-                    <>
-                {
-                  
-                   user.map((item1)=>{
-                    return(
-                      <>
-                      <h4>Current Project :{ item1.title}</h4>
-                      <h5>Manager : {item1.manager}</h5>
-                      <h5>Status : {item2.status}</h5>
-                      </>
-                    )      
-                  })
-                }
-                    </>   
-                    ):(
-                        user.map((item1)=>{
-                         return(
-                           <>
-                           <h4>Current Project :{ item1.title}</h4>
-                           <h5>Manager : {item1.manager}</h5>
-                           <h5>Status : unknown</h5>
-                           </>
-                         )      
-                       })
-                     
-                    )
-                  })
-                
-                // <>
-                // {
-                //   user.map((item)=>{
-                //     return(
-                //       <>
-                //       <h4>Current Project :{ item.title}</h4>
-                //       <h5>Manager : {item.manager}</h5>
-                //       </>
-                //     )      
-                //   })
-                // }
-                // {/* <h4>Current Project : Staples </h4> */}
-                // <h5>Status : </h5>
-                // {/* <h5>Reason for : </h5> */}
-                // </>
-               ):<>
-               {  user.map((item1)=>{
-                         return(
-                           <>
-                           <h4>Current Project :{ item1.title}</h4>
-                           <h5>Manager : {item1.manager}</h5>
-                           <h5>Status : unknown</h5>
-                           </>
-                         )      
-                       })}
-               </>
-              }
-               </TableCell>
+             <TableCell>
+              {reports.map((item,index) =>{
+                  console.log("----------------->",index,item)
+                  if(new Date(item.date).getDate()==i+1){
+                      return (
+                        <>
+                        <h4> Status : {item.status} </h4>
+                        {
+                          item.status=="Absent"?(
+                          <>
+                             <h4>Reason : {item.resaonOfLeave}</h4>
+                          </>
+                          ):(
+                            <></>
+                          )
+                        }
+                       
+                        </>
+                      )
+                  }
+              })}
+             </TableCell>
             
               {/* <TableCell align="right">{row.carbs}</TableCell> */}              
             </TableRow>

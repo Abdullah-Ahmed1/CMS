@@ -49,14 +49,19 @@ export default function LeaveManagementDialog({open,user,current,handleClose,han
         <DialogTitle>Leave Details</DialogTitle>
         <DialogContent>
           {
-            user.map((item)=>{
-              return(
-                <>
-                   <h4>Current Project: {item.title} </h4>
-                   <h4>Project Manager: {item.manager}</h4>     
-                </>
-              )
-            })
+            user?(
+              user.map((item)=>{
+                return(
+                  <>
+                     <h4>Current Project: {item.title} </h4>
+                     <h4>Project Manager: {item.manager}</h4>     
+                  </>
+                )
+              })
+            ):(
+              <></>
+            )
+           
           }
            
             <h4>Total leaves : 4 </h4>

@@ -4,14 +4,14 @@ import LeaveManagementTable from "../components/LeaveManagementTable"
 import NavBar from "../components/NavBar"
 
 const LeaveManagementPage = ({userId})=>{
-    const  [user,setUser] = useState([])
+    const  [projects,setProjects] = useState(null)
     const [reports,setResports] = useState([])
     useEffect(()=>{
          axios.get(`http://localhost:3333/show-user/${userId}`)
          .then((res)=>{
 
             console.log("response-->",res.data.user.currentProjects)
-            setUser(res.data.user.currentProjects)
+            setProjects(res.data.user.currentProjects)
          })
     },[])
 
@@ -27,7 +27,7 @@ const LeaveManagementPage = ({userId})=>{
         <div>
            <NavBar/> 
             <h3>Leave Management</h3>
-            <LeaveManagementTable  reports = {reports} user ={user} userId = {userId}/>
+            <LeaveManagementTable  reports = {reports} projects ={projects} userId = {userId}/>
         </div>
     )
 }
