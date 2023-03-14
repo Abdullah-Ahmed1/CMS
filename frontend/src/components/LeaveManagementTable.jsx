@@ -18,7 +18,7 @@ const month = ["January","February","March","April","May","June","July","August"
 export default function sLeaveManagementTable({userId,projects,reports}) {
 
   const [openSnack, setOpenSnack] = React.useState(false);
-    console.log("this is test branch")
+    
     const [reason ,setReason] = React.useState("")
     const [days,setDays] = React.useState("")
     const [open, setOpen] = React.useState(false);
