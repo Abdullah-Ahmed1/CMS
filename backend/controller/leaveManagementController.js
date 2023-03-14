@@ -5,7 +5,7 @@ const DailyReport = Mongoose.model("DailyReport");
 module.exports = {
 
     addReport  : async(req,res)=>{
-        console.log("!!!!!!>",req.body)
+        console.log("!!!!!!",req.body)
         try{  
           const userId = req.params.userId
         await  DailyReport.create({

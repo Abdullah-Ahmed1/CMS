@@ -10,30 +10,21 @@ import LeaveManagementDialog from './LeaveManagementDialog';
 import Grid2 from '@mui/material/Unstable_Grid2'
 import axios from 'axios';
 
-// function createData(name, calories, fat, carbs, protein) {
-//   return { name, calories, fat, carbs, protein };
-// }
-
-// const rows = [
-//   createData('Project 1', '02/10/2022', "Muhammad jawad", 'MERN'),
-//   createData('Project 2','02/11/2022', "Muhammad jawad", 'MEVN'),
-//   createData('Project 3','02/12/2022', "Muhammad jawad", 'MERN'),
-//   createData('Project 4','02/01/20223', "Muhammad jawad", 'MEVN'),
-//   createData('Project 5','02/04/2023', "Muhammad jawad", 'MERN'),
-// ];
 
 const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
 
 
 export default function sLeaveManagementTable({userId,user,reports}) {
+
+
     const [reason ,setReason] = React.useState("")
     const [days,setDays] = React.useState("")
     const [open, setOpen] = React.useState(false);
     const [status, setStatus] = React.useState('Present');
-    const [current,setCurrent] = React.useState(0)
-    // console.log("---*-*-*-*>>>>>",new Date(reports[0].date))
-    console.log("user-->",user)
+    const [current,setCurrent] = React.useState(0);
+    const [dayCount,setDayCount] = React.useState([]);
+  
       const handleClose = () => {
         setOpen(false);
       };
@@ -62,7 +53,17 @@ export default function sLeaveManagementTable({userId,user,reports}) {
            console.log("add report response",response)
 
         
+       React.useEffect(()=>{
 
+        const getAllDaysInMonth = (month, year) =>
+          Array.from(
+          { length: new Date(year, month, 0).getDate() },
+           (_, i) => new Date(year, month - 1, i + 1)
+          );
+
+          setDayCount(getAllDaysInMonth((new Date().getMonth())+1,new Date().getFullYear()))
+
+       },[])   
       
       }
   return (

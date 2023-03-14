@@ -9,6 +9,7 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import Hierarchy from './pages/HierarchyPage'
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -21,6 +22,7 @@ function App() {
         <Routes>
         <Route path='/'  element = {<HomePage   userId = {userId} />}/>
         <Route path='/leave-management'  element = {<LeaveManagementPage  userId = {userId} />}/>
+        <Route path='/hierarchy'  element = {<Hierarchy  userId = {userId} />}/>
         </Routes>
       </Router>
      
