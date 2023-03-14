@@ -14,7 +14,6 @@ import axios from 'axios';
 const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
 
-
 export default function sLeaveManagementTable({userId,user,reports}) {
 
 
@@ -147,7 +146,15 @@ export default function sLeaveManagementTable({userId,user,reports}) {
                 // {/* <h5>Reason for : </h5> */}
                 // </>
                ):<>
-                
+               {  user.map((item1)=>{
+                         return(
+                           <>
+                           <h4>Current Project :{ item1.title}</h4>
+                           <h5>Manager : {item1.manager}</h5>
+                           <h5>Status : unknown</h5>
+                           </>
+                         )      
+                       })}
                </>
               }
                </TableCell>

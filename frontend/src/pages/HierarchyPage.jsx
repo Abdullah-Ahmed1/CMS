@@ -2,10 +2,15 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Divider from '@mui/material/Divider';
 import { useState } from 'react';
 import NavBar from '../components/NavBar';
+import  { useEffect } from 'react';
+import axios from 'axios'
+
 
 const Hierarchy = ()=>{
+  
 
     const hierarchy = ['CEO','Engineering Manager','Project Manager', 'Senior Developer','Junior Developer','Intern']
+    const [people1,setPoeple1] = useState([])
     const  [people,setPeople] = useState([
         {
             id: 1,
@@ -54,6 +59,13 @@ const Hierarchy = ()=>{
         },
 
     ])
+    useEffect(()=>{
+        axios.get('http://localhost:3333/show-users')
+        .then((res)=>{
+           console.log("responsess-->",res.data.users)
+           setPoeple1(res.data.users)
+        })
+   },[])
 
     return(
         <>
@@ -71,11 +83,11 @@ const Hierarchy = ()=>{
                                     </Grid>
                                     <Grid container flexDirection={'row'} alignItems={'center'} justifyContent={'center'}>
                                     {
-                                    people.map((i,index)=>{
+                                    people1.map((i,index)=>{
                                         if(i.position==item){
                                             return(
                                                 <Grid  key = {index} sx = {{border:"2px solid black",borderRadius:"10px",margin:"10px",padding:"10px"}}>
-                                                    <h5>{i.name}</h5>
+                                                    <h5>{i.firstname  } {i.lastname}</h5>
                                                     {/* <h5>{i.position}</h5> */}
                                                 </Grid>
                                             )
