@@ -11,33 +11,7 @@ import LeaveManagementDialogRadioButton from './LeaveManagementDialogRadioButton
 export default function LeaveManagementDialog({open,user,current,handleClose,handleSubmit,status,days,reason,handleChangeStatus,handleChangeReason,handleChangeDays}) {
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('md');
- 
-  console.log("********>",current)
-  // const [reason,setReason] = React.useState('')
-  // const [days,setDays] = React.useState('') 
-
- 
-
-
-//   const handleClickOpen = () => {
-//     setOpen(true);
-//   };
-
-//   const handleClose = () => {
-//     setOpen(false);
-//   };
-
-//   const handleMaxWidthChange = (event) => {
-//     setMaxWidth(
-//       // @ts-expect-error autofill of arbitrary value is not handled.
-//       event.target.value,
-//     );
-//   };
-
-//   const handleFullWidthChange = (event) => {
-//     setFullWidth(event.target.checked);
-//   };
-
+  
   return (
     <React.Fragment>
       <Dialog

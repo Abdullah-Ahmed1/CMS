@@ -18,7 +18,7 @@ const month = ["January","February","March","April","May","June","July","August"
 export default function sLeaveManagementTable({userId,projects,reports}) {
 
   const [openSnack, setOpenSnack] = React.useState(false);
-
+ 
     const [reason ,setReason] = React.useState("")
     const [days,setDays] = React.useState("")
     const [open, setOpen] = React.useState(false);
@@ -26,7 +26,7 @@ export default function sLeaveManagementTable({userId,projects,reports}) {
     const [current,setCurrent] = React.useState(0);
     const [dayCount,setDayCount] = React.useState([]);
     const [row,setRow] = React.useState(0); 
-      console.log("reached it" ,row)
+      // console.log("reached it" ,row)
       const handleClose = () => {
         setOpen(false);
       };
@@ -53,8 +53,7 @@ export default function sLeaveManagementTable({userId,projects,reports}) {
 
 
       const handleSubmit = async()=>{
-        console.log("----> handle submit reached")
-        
+
           const data ={
             row : row,
             status : status,
@@ -62,27 +61,26 @@ export default function sLeaveManagementTable({userId,projects,reports}) {
             days : days
 
           }
-          console.log("data",data)
           setOpen(false);
 
-
            const response  = await axios.post(`http://localhost:3333/leaveManagement/add/${userId}`,data)
-           console.log("add report response",response)
+}
 
-        
-       React.useEffect(()=>{
 
+ React.useEffect(()=>{
+        console.log("***************************")
         const getAllDaysInMonth = (month, year) =>
           Array.from(
           { length: new Date(year, month, 0).getDate() },
            (_, i) => new Date(year, month - 1, i + 1)
           );
-
+            console.log("1212121",getAllDaysInMonth((new Date().getMonth())+1,new Date().getFullYear()))
           setDayCount(getAllDaysInMonth((new Date().getMonth())+1,new Date().getFullYear()))
 
        },[])   
       
-      }
+
+
   return (
     <>
     <DateSnackbar  handleCloseSnack  = {handleCloseSnack} open =  {openSnack}/>
@@ -96,7 +94,7 @@ export default function sLeaveManagementTable({userId,projects,reports}) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {[...Array(30)].map((row,i) => (
+          {dayCount.map((row,i) => (
             <TableRow
               key={i}
               sx={{ '&:last-child td, &:last-child th': { border: 0 },cursor :"pointer" ,  "&:hover":{backgroundColor:"grey",color:"white"} ,padding:"20px" }}
@@ -112,13 +110,13 @@ export default function sLeaveManagementTable({userId,projects,reports}) {
             >
               <TableCell sx ={{padding:"40px"}}  >
                 <Grid2 container flexDirection={"row"} justifyContent={"space-between"}>
-                <div>{i+1}</div>
+                <div>{month[new Date().getMonth()]} {i+1}</div>
                 </Grid2>
               </TableCell>
 
              <TableCell>
               {reports.map((item,index) =>{
-                  console.log("----------------->",index,item)
+                  // console.log("----------------->",index,item)
                   if(new Date(item.date).getDate()==i+1){
                       return (
                         <>
@@ -129,7 +127,9 @@ export default function sLeaveManagementTable({userId,projects,reports}) {
                              <h4>Reason : {item.resaonOfLeave}</h4>
                           </>
                           ):(
-                            <></>
+                            <>
+                            <h4></h4>
+                            </>
                           )
                         }
                        
@@ -137,9 +137,7 @@ export default function sLeaveManagementTable({userId,projects,reports}) {
                       )
                   }
               })}
-             </TableCell>
-            
-              {/* <TableCell align="right">{row.carbs}</TableCell> */}              
+             </TableCell>              
             </TableRow>
           ))}
         </TableBody>

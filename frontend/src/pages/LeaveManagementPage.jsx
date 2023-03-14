@@ -10,7 +10,6 @@ const LeaveManagementPage = ({userId})=>{
          axios.get(`http://localhost:3333/show-user/${userId}`)
          .then((res)=>{
 
-            console.log("response-->",res.data.user.currentProjects)
             setProjects(res.data.user.currentProjects)
          })
     },[])
@@ -18,7 +17,6 @@ const LeaveManagementPage = ({userId})=>{
     useEffect(()=>{
         axios.get(`http://localhost:3333/leaveManagement/getLeaves/${userId}`)
         .then((res)=>{
-          console.log("reports--->",res.data.reports)
           setResports(res.data.reports)
         })
     },[])
