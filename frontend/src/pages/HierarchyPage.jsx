@@ -48,7 +48,7 @@ const Hierarchy = ()=>{
             position: "Senior Developer" 
         },
         {
-            id: 8,
+            id: 9,
             name: "M kamran",
             position: "Intern" 
         },
@@ -62,8 +62,8 @@ const Hierarchy = ()=>{
                 {
                     hierarchy.map((item,index)=>{
                         return(
-                            <>
-                            <Divider orientation="vertical" flexItem />
+                            < >
+                            <Divider  orientation="vertical" flexItem />
                             <Grid container  key={index} sx={{marginTop:"30px"}} alignItems={'center'} justifyContent={'center'} >
                                 <Grid container flexDirection={'column'} >
                                     <Grid>
@@ -71,10 +71,10 @@ const Hierarchy = ()=>{
                                     </Grid>
                                     <Grid container flexDirection={'row'} alignItems={'center'} justifyContent={'center'}>
                                     {
-                                    people.map((i)=>{
+                                    people.map((i,index)=>{
                                         if(i.position==item){
                                             return(
-                                                <Grid  sx = {{border:"2px solid black",borderRadius:"10px",margin:"10px",padding:"10px"}}>
+                                                <Grid  key = {index} sx = {{border:"2px solid black",borderRadius:"10px",margin:"10px",padding:"10px"}}>
                                                     <h5>{i.name}</h5>
                                                     {/* <h5>{i.position}</h5> */}
                                                 </Grid>

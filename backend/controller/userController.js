@@ -40,7 +40,6 @@ module.exports={
         }
        
     }
-
 ,
     login:async(req,res)=>{
        try{
@@ -75,7 +74,6 @@ module.exports={
         })
        }
     }
-
     ,
     getAllUsers:async(req,res)=>{
         try{
