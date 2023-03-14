@@ -42,6 +42,16 @@ const Hierarchy = ()=>{
             name: "M Daniyal",
             position: "Engineering Manager" 
         },
+        {
+            id: 8,
+            name: "M Kashif",
+            position: "Senior Developer" 
+        },
+        {
+            id: 8,
+            name: "M kamran",
+            position: "Intern" 
+        },
 
     ])
 
@@ -57,7 +67,7 @@ const Hierarchy = ()=>{
                             <Grid container  key={index} sx={{marginTop:"30px"}} alignItems={'center'} justifyContent={'center'} >
                                 <Grid container flexDirection={'column'} >
                                     <Grid>
-                                       <h3  style = {{backgroundColor:"blue",color:"white",padding:"10px",borderRadius:"10px"}}>{item}</h3> 
+                                       <h3  style = {{backgroundColor:"skyblue",color:"white",padding:"10px",borderRadius:"10px"}}>{item}</h3> 
                                     </Grid>
                                     <Grid container flexDirection={'row'} alignItems={'center'} justifyContent={'center'}>
                                     {
