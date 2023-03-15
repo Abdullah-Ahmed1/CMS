@@ -20,19 +20,19 @@ export default function LeaveManagementTable({userId,projects,reports,refreshRep
   const [openSnack, setOpenSnack] = React.useState(false);
     
     const [reason ,setReason] = React.useState("")
-    const [days,setDays] = React.useState("")
+    const [days,setDays] = React.useState("0")
     const [open, setOpen] = React.useState(false);
     const [status, setStatus] = React.useState('Present');
     const [current,setCurrent] = React.useState(0);
+    const [totalLeaves,setTotalLeaves] = React.useState(0)
     const [dayCount,setDayCount] = React.useState([]);
     const [row,setRow] = React.useState(0); 
-      // console.log("reached it" ,row)
+ 
       const handleClose = () => {
         //------------ to clean dialog input fields----------------------
         setStatus('Present')
         setReason("")
         //----------------------------------
-
         setOpen(false);
       };
       const handleChangeStatus = (event) => {
@@ -44,7 +44,7 @@ export default function LeaveManagementTable({userId,projects,reports,refreshRep
       const handleChangeDays = (event)=>{
         setDays(event.target.value)
       }
-
+      console.log("!!!!!!!!!!!!!****",reports)
 
 
       
@@ -62,8 +62,8 @@ export default function LeaveManagementTable({userId,projects,reports,refreshRep
           const data ={
             row : row,
             status : status,
-            reason: reason,
-            days : days
+            reason:  status=="Absent" ?  reason: "",
+            days :status=="Absent" ?  days: "0" 
 
           }
           setOpen(false);
@@ -74,6 +74,7 @@ export default function LeaveManagementTable({userId,projects,reports,refreshRep
               //------------ to clean dialog input fields----------------------
               setStatus('Present')
               setReason("")
+              setDays("0")
               //----------------------------------
            }).catch((err)=>{
             console.log(err)
@@ -82,23 +83,42 @@ export default function LeaveManagementTable({userId,projects,reports,refreshRep
 
 
  React.useEffect(()=>{
-        console.log("***************************")
         const getAllDaysInMonth = (month, year) =>
           Array.from(
           { length: new Date(year, month, 0).getDate() },
            (_, i) => new Date(year, month - 1, i + 1)
           );
-            console.log("1212121",getAllDaysInMonth((new Date().getMonth())+1,new Date().getFullYear()))
+           
           setDayCount(getAllDaysInMonth((new Date().getMonth())+1,new Date().getFullYear()))
 
        },[])   
-      
 
 
+       React.useEffect(()=>{
+        console.log("reacheddddddddddddddddddddddddddddddddddddddddddddddddddddd")
+            function LeavesCounter(){
+             
+              var count  = 0
+              console.log("reports length!!!!!!!!",reports)
+              if(reports.length != 0 ){
+                reports.map((item)=>{
+                  console.log(item.status == "Absent","-*****/")
+                  if(item.status == "Absent"){
+                      count = count + parseInt(item.DaysOfLeave)
+                  }
+                })
+
+              }
+               
+                setTotalLeaves(count)
+            }
+            LeavesCounter()
+
+       },[reports])
   return (
     <>
     <DateSnackbar  handleCloseSnack  = {handleCloseSnack} open =  {openSnack}/>
-    <LeaveManagementDialog open = {open} current = {current} user = {projects} handleClose = {handleClose} days = {days} handleChangeDays = {handleChangeDays} reason = {reason}  handleChangeReason = {handleChangeReason} handleChangeStatus = {handleChangeStatus} status = {status}  handleSubmit = {handleSubmit} />
+    <LeaveManagementDialog open = {open} totalLeaves = {totalLeaves}  current = {current} user = {projects} handleClose = {handleClose} days = {days} handleChangeDays = {handleChangeDays} reason = {reason}  handleChangeReason = {handleChangeReason} handleChangeStatus = {handleChangeStatus} status = {status}  handleSubmit = {handleSubmit} />
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
@@ -117,7 +137,7 @@ export default function LeaveManagementTable({userId,projects,reports,refreshRep
                 if(new Date().getDate()> i){
                   reports.map((item)=>{
                     if(new Date(item.date).getDate() == i+1){
-                      console.log("zzzzzzzzzz",item)
+                      // console.log("zzzzzzzzzz",item)
                        setStatus(()=> item.status)
                        setReason(()=>item.reasonOfLeave) 
                     }
@@ -152,7 +172,6 @@ export default function LeaveManagementTable({userId,projects,reports,refreshRep
                             </>
                           )
                         }
-                       
                         </div>
                       )
                   }

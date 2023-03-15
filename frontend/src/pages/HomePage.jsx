@@ -12,20 +12,40 @@ const HomePage = ({userId})=>{
         // const userId = '64081d344d9fbcae0698c5b3'
         async function getuser(){
             const user =  await axios.get(`http://localhost:3333/show-user/${userId}`)
-            console.log("---->",user)
+            // console.log("---->",user)
             setUser(()=> user.data.user )
 
         }
 
         async function getProjects(){
             const projects =  await axios.get(`http://localhost:3333/projects/show/${userId}`)
-            console.log("---->>>>",projects)
+            // console.log("---->>>>",projects)
             setProjects(()=> projects.data.projects )
         }
         getuser()
         getProjects()
     
 
+    },[])
+
+
+    useEffect(()=>{
+         function b(){
+            async function a(){
+                console.log("aa")
+                console.log( await axios.get(`http://localhost:3333/projects/show/${userId}`),"lwkedm")
+                // console.log("b")
+                console.log("d")
+                
+            }
+            function main(){
+                console.log("hye")
+                a()
+                console.log("hello")
+            }
+            main()
+        }
+        b()
     },[])
     return(
         <Box sx = {{}}>
