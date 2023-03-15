@@ -28,8 +28,11 @@ export default function LeaveManagementTable({userId,projects,reports,refreshRep
     const [row,setRow] = React.useState(0); 
       // console.log("reached it" ,row)
       const handleClose = () => {
+        //------------ to clean dialog input fields----------------------
         setStatus('Present')
         setReason("")
+        //----------------------------------
+
         setOpen(false);
       };
       const handleChangeStatus = (event) => {
@@ -68,6 +71,10 @@ export default function LeaveManagementTable({userId,projects,reports,refreshRep
            axios.post(`http://localhost:3333/leaveManagement/add/${userId}`,data)
            .then((res)=>{
               refreshReports()
+              //------------ to clean dialog input fields----------------------
+              setStatus('Present')
+              setReason("")
+              //----------------------------------
            }).catch((err)=>{
             console.log(err)
            })
@@ -109,14 +116,10 @@ export default function LeaveManagementTable({userId,projects,reports,refreshRep
                   setCurrent(()=>i+1)
                 if(new Date().getDate()> i){
                   reports.map((item)=>{
-                    // console.log("zzzzzzzzzz",item.date)
                     if(new Date(item.date).getDate() == i+1){
                       console.log("zzzzzzzzzz",item)
                        setStatus(()=> item.status)
                        setReason(()=>item.reasonOfLeave) 
-                    }else{
-                      // setStatus(()=> 'Present')
-                      //  setReason(()=> "") 
                     }
                   })
                     setOpen(true)
@@ -134,7 +137,6 @@ export default function LeaveManagementTable({userId,projects,reports,refreshRep
 
              <TableCell>
               {reports.map((item,index) =>{
-                  // console.log("----------------->",index,item)
                   if(new Date(item.date).getDate()==i+1){
                       return (
                         <div key={index}>
