@@ -8,8 +8,7 @@ const LeaveManagementPage = ({userId})=>{
     const [reports,setResports] = useState([])
 
 
-    console.log("this is teset branch")
-
+   
     const refreshReports = ()=>{
         console.log("refreshreports reached")
         axios.get(`http://localhost:3333/leaveManagement/getLeaves/${userId}`)
