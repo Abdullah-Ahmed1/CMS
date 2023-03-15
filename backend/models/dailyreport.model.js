@@ -6,7 +6,7 @@ const dailyReportSchema = new mongoose.Schema({
     status:{
         type:String
     },
-    resaonOfLeave:{
+    reasonOfLeave:{
         type:String
     },
     DaysOfLeave :{

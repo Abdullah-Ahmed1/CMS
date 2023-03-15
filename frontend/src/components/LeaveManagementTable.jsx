@@ -15,7 +15,7 @@ import DateSnackbar from './DateSnackbar';
 const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
 
-export default function sLeaveManagementTable({userId,projects,reports}) {
+export default function LeaveManagementTable({userId,projects,reports,refreshReports}) {
 
   const [openSnack, setOpenSnack] = React.useState(false);
     
@@ -28,6 +28,8 @@ export default function sLeaveManagementTable({userId,projects,reports}) {
     const [row,setRow] = React.useState(0); 
       // console.log("reached it" ,row)
       const handleClose = () => {
+        setStatus('Present')
+        setReason("")
         setOpen(false);
       };
       const handleChangeStatus = (event) => {
@@ -52,8 +54,8 @@ export default function sLeaveManagementTable({userId,projects,reports}) {
   };
 
 
-      const handleSubmit = async()=>{
-
+      const handleSubmit = ()=>{
+        console.log("row is : ",row)
           const data ={
             row : row,
             status : status,
@@ -63,7 +65,12 @@ export default function sLeaveManagementTable({userId,projects,reports}) {
           }
           setOpen(false);
 
-           const response  = await axios.post(`http://localhost:3333/leaveManagement/add/${userId}`,data)
+           axios.post(`http://localhost:3333/leaveManagement/add/${userId}`,data)
+           .then((res)=>{
+              refreshReports()
+           }).catch((err)=>{
+            console.log(err)
+           })
 }
 
 
@@ -89,7 +96,7 @@ export default function sLeaveManagementTable({userId,projects,reports}) {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell> {month[new Date().getMonth()]}</TableCell>
+            <TableCell> Month</TableCell>
             <TableCell>Report</TableCell>
           </TableRow>
         </TableHead>
@@ -99,10 +106,21 @@ export default function sLeaveManagementTable({userId,projects,reports}) {
               key={i}
               sx={{ '&:last-child td, &:last-child th': { border: 0 },cursor :"pointer" ,  "&:hover":{backgroundColor:"grey",color:"white"} ,padding:"20px" }}
               onClick = {()=>{
-                  setCurrent(()=>i)
+                  setCurrent(()=>i+1)
                 if(new Date().getDate()> i){
+                  reports.map((item)=>{
+                    // console.log("zzzzzzzzzz",item.date)
+                    if(new Date(item.date).getDate() == i+1){
+                      console.log("zzzzzzzzzz",item)
+                       setStatus(()=> item.status)
+                       setReason(()=>item.reasonOfLeave) 
+                    }else{
+                      // setStatus(()=> 'Present')
+                      //  setReason(()=> "") 
+                    }
+                  })
                     setOpen(true)
-                    setRow(() => i )
+                    setRow(() => i+1 )
                 }else{
                   setOpenSnack(true)
                 }
@@ -119,12 +137,12 @@ export default function sLeaveManagementTable({userId,projects,reports}) {
                   // console.log("----------------->",index,item)
                   if(new Date(item.date).getDate()==i+1){
                       return (
-                        <>
-                        <h4> Status : {item.status} </h4>
+                        <div key={index}>
+                        <h4 > Status : {item.status} </h4>
                         {
                           item.status=="Absent"?(
                           <>
-                             <h4>Reason : {item.resaonOfLeave}</h4>
+                             <h4>Reason : {item.reasonOfLeave}</h4>
                           </>
                           ):(
                             <>
@@ -133,7 +151,7 @@ export default function sLeaveManagementTable({userId,projects,reports}) {
                           )
                         }
                        
-                        </>
+                        </div>
                       )
                   }
               })}

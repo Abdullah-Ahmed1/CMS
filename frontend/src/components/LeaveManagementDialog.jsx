@@ -24,12 +24,12 @@ export default function LeaveManagementDialog({open,user,current,handleClose,han
         <DialogContent>
           {
             user?(
-              user.map((item)=>{
+              user.map((item,i)=>{
                 return(
-                  <>
+                  <div key={i}>
                      <h4>Current Project: {item.title} </h4>
                      <h4>Project Manager: {item.manager}</h4>     
-                  </>
+                  </div>
                 )
               })
             ):(
