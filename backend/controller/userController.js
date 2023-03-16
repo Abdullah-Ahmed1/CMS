@@ -54,6 +54,7 @@ module.exports={
 ,
     login:async(req,res)=>{
        try{
+        console.log(" login reachedddddddd")
         const user = await User.findOne({
             email:req.body.email
         })
@@ -69,7 +70,7 @@ module.exports={
             })
         }else{
                
-        const token = jwt.sign({email:user.firstname, password:user.password},'12345')
+        const token = jwt.sign({email:user.email, password:user.password},'12345')
         
          return res.status(200).send({
             status:"success",

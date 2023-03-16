@@ -1,48 +1,82 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
+import {useNavigate} from "react-router-dom"
+import axios from "axios";
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-// import Link from '@mui/material/Link';
+import TypeWriterEffect from 'react-typewriter-effect';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import { useState,createContext, useContext  } from 'react';
 
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 const theme = createTheme();
+export default function SignInSide() {
+    const myRef = document.querySelector('.scrollable-div')
+    const navigate = useNavigate();
+    
+    const [open, setOpen] = React.useState(false);
+    const handleClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+  
+      setOpen(false);
+    };
 
-export default function LoginForm() {
+    
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    // console.log({
+    //   email: data.get('email'),
+    //   password: data.get('password'),
+    // });
+    const data1 = {
       email: data.get('email'),
       password: data.get('password'),
-    });
+    }
+
+    axios.post('http://localhost:3333/login',data1)
+    .then((res)=>{
+        console.log("---------->",res)
+        if(res.data.status=="success"){
+            console.log("-------------->",res.data)
+
+            localStorage.setItem('token',JSON.stringify({
+                login:true,
+                token:res.data.token
+            }));
+              navigate('/')
+        }else{
+          setOpen(true  )
+        }
+    }).catch((err)=>{
+      setOpen(true  )
+    })
+
   };
 
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
+      <Snackbar open={open} autoHideDuration={6000}   key={"top" + "right"}  anchorOrigin={{ vertical:"top", horizontal:"right" }}  onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+          Invalid email or password!
+        </Alert>
+      </Snackbar>
         <CssBaseline />
         <Grid
           item
@@ -50,14 +84,38 @@ export default function LoginForm() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: 'url(https://source.unsplash.com/random)',
+             // backgroundImage: 'url(https://source.unsplash.com/random)',
             backgroundRepeat: 'no-repeat',
-            backgroundColor: (t) =>
-              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+            backgroundColor: "#5cdb95",
             backgroundSize: 'cover',
+            display:{sm : "flex",xs:"none"},
             backgroundPosition: 'center',
+            alignItems:"center",
+            justifyContent:"center"
           }}
-        />
+        >   <div  style={{padding: "100px"}}>
+             <TypeWriterEffect
+            
+            textStyle={{
+                //fontFamily: 'Red Hat Display',
+                color: '#05386b',
+                fontWeight: 500,
+                fontSize: '4.5em',
+              }}
+              startDelay={1000}
+              cursorColor="#3F3D56"
+              hideCursorAfterText = "true"
+              multiText={[
+                'CMS',
+                'A Content Management System',
+                'Manages data of the team ',
+              ]}
+              multiTextDelay={5000}
+              typeSpeed={40}
+            scrollArea={myRef}
+          />
+          </div>
+        </Grid>
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
             sx={{
@@ -68,25 +126,29 @@ export default function LoginForm() {
               alignItems: 'center',
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <Avatar sx={{ m: 1, bgcolor: '#5cdb95' }}>
               <LockOutlinedIcon />
             </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign in
+            {/* <img style={{width:"200px",marginLeft:"25px",marginRight:"50px",marginBottom:"20px"}} src={'/logo2.png'} alt="iblogs" /> */}
+            <Typography component="h1" variant="h5" sx = {{color:"#05386b"}} >
+              {/* Sign in */}
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
+              sx = {{ '& label' :{color:"#5cdb95"},'& label.Mui-focused':{color:"#5cdb95"},'& .MuiOutlinedInput-root':{ '&.Mui-focused fieldset': {  borderColor:"#5cdb95"} }}}
                 margin="normal"
                 required
                 fullWidth
                 id="email"
                 label="Email Address"
                 name="email"
+                
                 autoComplete="email"
                 autoFocus
               />
               <TextField
-                margin="normal"
+               sx = {{ '& label' :{color:"#5cdb95"},'& label.Mui-focused':{color:"#5cdb95"},'& .MuiOutlinedInput-root':{ '&.Mui-focused fieldset': {  borderColor:"#5cdb95"} }}}
+               margin="normal"
                 required
                 fullWidth
                 name="password"
@@ -95,31 +157,31 @@ export default function LoginForm() {
                 id="password"
                 autoComplete="current-password"
               />
-              <FormControlLabel
+              {/* <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
-              />
+              /> */}
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: 3, mb: 2 , backgroundColor:"#5cdb95",'&:hover':{backgroundColor:"#05386b"} }}
               >
                 Sign In
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link to='/register' >
+                  <Link to ="/forget  " >
                     Forgot password?
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link to={'/register'} variant="body2">
+                  <Link style={{cursor:"pointer", color:"#05386b"}}   to = "/register" >
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>
               </Grid>
-              {/* <Copyright sx={{ mt: 5 }} /> */}
+            
             </Box>
           </Box>
         </Grid>
