@@ -20,11 +20,11 @@ module.exports={
 
     register  :async(req,res)=>{
         try{
+            console.log("register reached")
 
             const  { error } = validate(req.body);
-
             if(error){
-               res.send({
+             return  res.send({
                 status : "fail",
                 message: error.details
                })
@@ -35,13 +35,13 @@ module.exports={
         })
     
         if(user){
-            res.status(400).send({
+            return   res.status(400).send({
                 status:'bad request',
                 message:'email already exists'    
             })
         }else{
             const created =  await User.create(req.body)
-            res.status(200).send({
+            return res.status(200).send({
                 status:'success',
                 message:'user created successfuly'   
             })
@@ -58,12 +58,12 @@ module.exports={
             email:req.body.email
         })
         if(!user)
-            res.status(400).send({
+           return res.status(400).send({
                 status:"failure",
                 message:"Invalid username or password"
             })
         else if(user.password !== req.body.password){
-            res.status(400).send({
+           return res.status(400).send({
                 status:"failure",
                 message:"Invalid username or password"
             })
@@ -71,7 +71,7 @@ module.exports={
                
         const token = jwt.sign({email:user.firstname, password:user.password},'12345')
         
-        res.status(200).send({
+         return res.status(200).send({
             status:"success",
             message: "login sucessfull",
             token : token
@@ -79,7 +79,7 @@ module.exports={
         }
         
        }catch(err){
-        res.status(400).send({
+        return res.status(400).send({
             status:"fail",
             message: "something went wrong",
         })
@@ -89,13 +89,13 @@ module.exports={
     getAllUsers:async(req,res)=>{
         try{
             const users =  await User.find({})
-            res.status(200).send({
+          return  res.status(200).send({
                 status:"success",
                 users : users
             })
 
         }catch(err){
-            res.status(400).send({
+           return  res.status(400).send({
                 status:"fail",
                 message:"something went wrong"
             })
@@ -111,12 +111,12 @@ module.exports={
                 path : 'currentProjects'
             })
             if(user){
-                res.status(200).send({
+               return res.status(200).send({
                     status:"success",
                     user : user  
                 })
             }else{
-                res.status(404).send({
+              return  res.status(404).send({
                     status:"not found",
                 })
             }
@@ -134,12 +134,12 @@ module.exports={
                 _id : userId
             })
           if(user){
-             res.status(200).send({
+             return res.status(200).send({
                 status:"success",
                 message:" User deleted successfully"
              })
           } else{
-            res.status(400).send({
+            return res.status(400).send({
                 status:"fail",
                 message:"something went wrong"
              })

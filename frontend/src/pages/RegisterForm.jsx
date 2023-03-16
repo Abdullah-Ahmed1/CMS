@@ -3,15 +3,15 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
+// import FormControlLabel from '@mui/material/FormControlLabel';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import axios from "axios";
-import Checkbox from '@mui/material/Checkbox';
+// import Checkbox from '@mui/material/Checkbox';
 import TypeWriterEffect from 'react-typewriter-effect';
 import { Link } from "react-router-dom";
 import Paper from '@mui/material/Paper';
-  import Box from '@mui/material/Box';
+import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 // import Typography from '@mui/material/Typography';
@@ -62,7 +62,12 @@ const [passwordErrorText,setPasswordErrorText] = useState("")
 const [confirmPass,setConfirmPass] = useState("");
 const [confirmPassError,setConfirmPassError] = useState(false)
 const [confirmPassErrorText,setConfirmPassErrorText] = useState("")
-const [validated,setValidated] = useState(false);
+const [firstnameValidated,setFirstnameValidated] = useState(false);
+const [lastnameValidated,setLastnameValidated] = useState(false);
+const [emailValidated,setEmailValidated] = useState(false);
+const [positionValidated,setPositionValidated] = useState(false);
+const [passwordValidated,setPasswordValidated] = useState(false);
+const [confirmPasswordValidated,setConfirmPasswordValidated] = useState(false);
 
 //--------------------------------------------------------------
     const firstnameValidate=()=>{
@@ -72,41 +77,41 @@ const [validated,setValidated] = useState(false);
       if(firstName===""  ){
         setFirstNameError(true)
         setFirstNameErrorText("first name is required")
-        setValidated(false)
+        setFirstnameValidated(false)
       }else if(!firstnameValidator1.test(firstName)){
         setFirstNameError(true)
         setFirstNameErrorText("first name should only include letters")
-        setValidated(false)
+        setFirstnameValidated(false)
       }else if(! /^[A-Z][a-z]*/.test(firstName)){
         setFirstNameError(true)
         setFirstNameErrorText("first letter should be capital ")
-        setValidated(false)
+        setFirstnameValidated(false)
       }
       else{
         setFirstNameError(false)
-        setValidated(true)
+        setFirstnameValidated(true)
       }
     }
     const lastnameValidate=()=>{
       console.log(lastName)
       const firstnameValidator1 = /^[A-Za-z]+$/;
      // const firstnameValidator2 = ;
-      if(lastName===""  ){
+      if(lastName==="" ){
         setLastNameError(true)
         setLastNameErrorText("first name is required")
-        setValidated(false)
+        setLastnameValidated(false)
       }else if(!firstnameValidator1.test(lastName)){
         setLastNameError(true)
         setLastNameErrorText("first name should only include letters")
-        setValidated(false)
+        setLastnameValidated(false)
       }else if(! /^[A-Z][a-z]*/.test(lastName)){
         setLastNameError(true)
         setLastNameErrorText("first letter should be capital ")
-        setValidated(false)
+        setLastnameValidated(false)
       }
       else{
         setLastNameError(false)
-        setValidated(true)
+        setLastnameValidated(true)
       }
     }
     const emailValidate = ()=>{
@@ -114,24 +119,24 @@ const [validated,setValidated] = useState(false);
       if(email===""  ){
         setEmailError(true)
         setEmailErrorText("email is required")
-        setValidated(false)
+        setEmailValidated(false)
       }else if(!emailRegex.test(email)){
         setEmailError(true)
         setEmailErrorText("email is pattern is not correct")
-        setValidated(false)
+        setEmailValidated(false)
       }else{
         setEmailError(false)
-        setValidated(true)
+        setEmailValidated(true)
       }
     }
-    const poisitionValidate = ()=>{
+    const positionValidate = ()=>{
       if(position==""  ){
         setPositionError(true)
         setPositionErrorText("position is required")
-        setValidated(false)
+        setPositionValidated(false)
       }else{
         setPositionError(false)
-        setValidated(true)
+        setPositionValidated(true)
       }
     }
 
@@ -139,44 +144,44 @@ const [validated,setValidated] = useState(false);
       if(password===""  ){
         setPasswordError(true)
         setPasswordErrorText("password is required")
-        setValidated(false)
+        setPasswordValidated(false)
       }else if(! /[*@!#%&()^~{}]+/.test(password) ){
       setPasswordError(true)
       setPasswordErrorText("atleast one special character is required") 
-      setValidated(false)
+      setPasswordValidated(false)
     }else if(! /[0-9]+/.test(password) ){
       setPasswordError(true)
       setPasswordErrorText("atleast one integer is required")
-      setValidated(false)
+      setPasswordValidated(false)
     }else if(! /[A-Z]+/.test(password)){
       setPasswordError(true)
       setPasswordErrorText("atleast one uppercase letter is required")
-      setValidated(false)
+      setPasswordValidated(false)
    
     }else if(! /[a-z]+/.test(password)){
       setPasswordError(true)
       setPasswordErrorText("atleast one lowercase letter is required")
-      setValidated(false)
+      setPasswordValidated(false)
    
     }else if(! /^.{6,}$/.test(password)){
       setPasswordError(true)
       setPasswordErrorText("atleast 6 character is required")
-      setValidated(false)
+      setPasswordValidated(false)
    
     }
     else{
       setPasswordError(false)
-      setValidated(true)
+      setPasswordValidated(true)
     }
   }  
   const confirmPassValidate = ()=>{
-    if( password !==confirmPass){
+    if( password == "" || password !==confirmPass){
       setConfirmPassError(true)
       setConfirmPassErrorText("Password is not matched")
-      setValidated(false)
+      setConfirmPasswordValidated(false)
     }else{
       setConfirmPassError(false)
-      setValidated(true)
+      setConfirmPasswordValidated(true)
     }
   }
   const handleSubmit = (event) => {
@@ -184,21 +189,23 @@ const [validated,setValidated] = useState(false);
     firstnameValidate();
     lastnameValidate();
     emailValidate();
+    positionValidate()
     validatePassword();
     confirmPassValidate();
-    console.log("validated-------",validated)
-    if(validated === true){
+    // console.log("validated-------",validated)
+    if(firstnameValidated && lastnameValidated && emailValidated && passwordValidated && confirmPasswordValidated){
       const data = new FormData(event.currentTarget);
       const data2 ={ 
         firstname: data.get('firstname'),
         lastname: data.get('lastname'),
         email: data.get('email'),
+        position : data.get('position'),
         password: data.get('password'),
       }
       console.log("submitted",data2)
-      axios.post('http://127.0.0.1:5000/register',data2)
+      axios.post('http://localhost:3333/register',data2)
           .then((res)=>{
-              console.log("--->",res.data.message)  
+              console.log(" register form--->",res.data.message)  
               setResponseMsg({msg : res.data.message,status:"success"})
                setOpen(true) 
           }).catch((error)=>{
@@ -214,11 +221,13 @@ const [validated,setValidated] = useState(false);
     <ThemeProvider theme={theme}>
       {
         responseMsg? (
+          <>
           <Snackbar open={open} autoHideDuration={6000}   key={"top" + "right"}  anchorOrigin={{ vertical:"top", horizontal:"right" }}  onClose={handleClose}>
           <Alert onClose={handleClose} severity={responseMsg.status} sx={{ width: '100%' }}>
             {responseMsg? responseMsg.msg: "this is dummy"}
           </Alert>
         </Snackbar>
+        </>
         ):(<div></div>)
       }
       
@@ -338,7 +347,7 @@ const [validated,setValidated] = useState(false);
                   error={positionError}
                   helperText={positionError? positionErrorText : ""}
                   onChange = {(e)=>setPosition(e.target.value)}
-                  onBlur={poisitionValidate}
+                  onBlur={positionValidate}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -375,12 +384,12 @@ const [validated,setValidated] = useState(false);
                   onBlur={confirmPassValidate}
                 />
               </Grid>
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <FormControlLabel
                   control={<Checkbox value="allowExtraEmails" sx = {{color:"#5cdb95",'&.Mui-checked':{color:"#5cdb95"}}} />}
                   label="I want to receive inspiration, marketing promotions and updates via email."
                 />
-              </Grid>
+              </Grid> */}
             </Grid>
             <Button
               type="submit"
