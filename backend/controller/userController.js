@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const Mongoose = require("mongoose");
 require("../models/users.model");
 const User = Mongoose.model("User");
+const {validate} = require("../models/users.model")
 
 module.exports={
     test:(req,res)=>{
@@ -19,6 +20,16 @@ module.exports={
 
     register  :async(req,res)=>{
         try{
+
+            const  { error } = validate(req.body);
+
+            if(error){
+               res.send({
+                status : "fail",
+                message: error.details
+               })
+            }
+
         const user =  await User.findOne({
             email: req.body.email
         })
