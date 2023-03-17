@@ -12,6 +12,7 @@ import {
 import Hierarchy from './pages/HierarchyPage'
 import LoginForm from './pages/LoginPage'
 import RegisterForm from './pages/RegisterForm'
+import VerifyUser from './pages/VerifyUser'
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -22,11 +23,12 @@ function App() {
     <div className="App">
       <Router>
         <Routes>
-        <Route path='/'  element = {<HomePage   userId = {userId} />}/>
-        <Route path='/leave-management'  element = {<LeaveManagementPage  userId = {userId} />}/>
-        <Route path='/hierarchy'  element = {<Hierarchy  userId = {userId} />}/>
-        <Route path='/login'  element = {<LoginForm  />}/>
-        <Route path='/register'  element = {<RegisterForm  />}/>
+        <Route exact path='/'  element = {<HomePage   userId = {userId} />}/>
+        <Route exact path='/leave-management'  element = {<LeaveManagementPage  userId = {userId} />}/>
+        <Route exact path='/hierarchy'  element = {<Hierarchy  userId = {userId} />}/>
+        <Route exact path='/login'  element = {<LoginForm  />}/>
+        <Route exact path='/register'  element = {<RegisterForm  />}/>
+        <Route exact path="/users/:id/verify/:token" element={<VerifyUser/>} />
 
         </Routes>
       </Router>

@@ -64,7 +64,37 @@ module.exports={
             console.log(err)
         }
        
+    },
+
+    verify : async(req,res)=>{
+        const userId = req.params.id
+        const temp_token = req.params.token
+        console.log("email verify reached---------->",userId,temp_token)
+        try {
+            const user = await User.findOne({ _id:userId });
+            console.log("user1: ", user);
+            if (!user) return res.status(400).send({ message: "Invalid link" });
+      
+            const token = await Token.findOne({
+              userId: user._id,
+              token: temp_token
+            });
+
+            console.log("token->",token)
+            if (!token) return res.status(400).send({ message: "Invalid link" });
+            console.log("reached");
+            // { _id: user._id, verified: true }
+            const a = await User.updateOne({ _id: user._id }, { verified: true });
+            await token.deleteOne({_id: token._id});
+      
+            return res.status(200).send({ message: "Email verified successfully" });
+          } catch (error) {
+            console.log("error", error);
+            res.status(500).send({ message: "Internal Server Error", error: error });
+          }    
     }
+
+
 ,
     login:async(req,res)=>{
        try{
@@ -81,13 +111,22 @@ module.exports={
                 status:"failure",
                 message:"Invalid username or password"
             })
-        else if(!validPass){
+
+         if(!validPass){
            return res.status(400).send({
                 status:"failure",
                 message:"Invalid username or password"
             })
-        }else{
-               
+        }
+        
+        if(!user.verified){
+            return res.status(400).send(({
+                status:"failure",
+                message:"email is not verified"
+            }))
+        }
+            
+            
         const token = jwt.sign({email:user.email, id : user._id,password:user.password},'12345')
         res.cookie('token', token, { httpOnly: true });
          return res.status(200).json({
@@ -95,7 +134,7 @@ module.exports={
             message: "login sucessfull",
             token : token
         })
-        }
+        
         
        }catch(err){
         return res.status(400).send({

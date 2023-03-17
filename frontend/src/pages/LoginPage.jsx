@@ -28,6 +28,7 @@ export default function SignInSide() {
     const navigate = useNavigate();
     
     const [open, setOpen] = React.useState(false);
+    const [error,setError] = React.useState(null);
     const handleClose = (event, reason) => {
       if (reason === 'clickaway') {
         return;
@@ -54,6 +55,7 @@ export default function SignInSide() {
         console.log("----res------>",res)
         if(res.data.status=="success"){
             console.log("-------------->",res.data)
+            
 
             // localStorage.setItem('token',JSON.stringify({
             //     login:true,
@@ -64,6 +66,8 @@ export default function SignInSide() {
           setOpen(true  )
         }
     }).catch((err)=>{
+      console.log("catched----->",err.response.data.message)
+      setError(err.response.data.message)
       setOpen(true  )
     })
 
@@ -72,11 +76,19 @@ export default function SignInSide() {
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
-      <Snackbar open={open} autoHideDuration={6000}   key={"top" + "right"}  anchorOrigin={{ vertical:"top", horizontal:"right" }}  onClose={handleClose}>
-        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
-          Invalid email or password!
-        </Alert>
-      </Snackbar>
+      {
+        error?(
+          <Snackbar open={open} autoHideDuration={6000}   key={"top" + "right"}  anchorOrigin={{ vertical:"top", horizontal:"right" }}  onClose={handleClose}>
+          <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+            {error}
+          </Alert>
+        </Snackbar>
+        ):(
+          <>
+          </>
+        )
+      }
+     
         <CssBaseline />
         <Grid
           item

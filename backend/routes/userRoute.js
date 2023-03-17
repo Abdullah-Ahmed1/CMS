@@ -10,6 +10,7 @@ router.route('/show-users').get(mainController.getAllUsers)
 router.route('/show-user').get(authenticateToken,mainController.getUserById)
 router.route('/login') .post(mainController.login)
 router.route('/deleteUser/:id') .delete(authenticateToken,mainController.deleteUserById)
+router.route("/:id/verify/:token/").get(mainController.verify);
 
 
 module.exports = router
