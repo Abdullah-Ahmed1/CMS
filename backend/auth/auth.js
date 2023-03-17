@@ -1,4 +1,3 @@
-
 const jwt = require("jsonwebtoken");
   const authenticateToken  =  (req,res,next)=>{
         console.log("reached-------------middleware")    
@@ -7,7 +6,6 @@ const jwt = require("jsonwebtoken");
             const decoded = jwt.verify(token,'12345')
             res.locals.decodedId = decoded.id 
             next()
-
         }catch(err){
             res.locals.authenticated = false
             return  res.status(400).send({

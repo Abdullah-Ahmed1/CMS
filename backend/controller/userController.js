@@ -4,6 +4,9 @@ require("../models/users.model");
 const User = Mongoose.model("User");
 const {validate} = require("../models/users.model")
 const bcrypt = require("bcrypt");
+const Token = require("../models/token.model");
+const crypto = require("crypto");
+const sendEmail = require("../utils/SendEmail");
 
 module.exports={
     test:(req,res)=>{
@@ -43,9 +46,18 @@ module.exports={
             })
         }else{
             const created =  await User.create(req.body)
+
+
+            const token = await new Token({
+                userId: created._id,
+                token: crypto.randomBytes(32).toString("hex"),
+              }).save();
+
+              const url = `${process.env.BASE_URL}users/${created.id}/verify/${token.token}`;
+              const response =  await sendEmail(created.email, "Verify Email", url);
             return res.status(200).send({
                 status:'success',
-                message:'user created successfuly'   
+                message:'An Email sent to your account please verify'   
             })
         }   
         }catch(err){
