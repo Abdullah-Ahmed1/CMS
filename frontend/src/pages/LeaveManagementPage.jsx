@@ -11,21 +11,30 @@ const LeaveManagementPage = ({userId})=>{
    
     const refreshReports = ()=>{
         console.log("refresh reports reached")
-        axios.get(`http://localhost:3333/leaveManagement/getLeaves/${userId}`)
+        axios.get(`http://localhost:3333/leaveManagement/getLeaves`,{
+            withCredentials:true,
+            headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'}
+        })
         .then((res)=>{
           setResports(res.data.reports)
         })
     }
 
     useEffect(()=>{
-         axios.get(`http://localhost:3333/show-user/${userId}`)
+         axios.get(`http://localhost:3333/show-user`,{
+            withCredentials:true,
+            headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'}
+        })
          .then((res)=>{
             setProjects(res.data.user.currentProjects)
          })
     },[])
 
     useEffect(()=>{
-        axios.get(`http://localhost:3333/leaveManagement/getLeaves/${userId}`)
+        axios.get(`http://localhost:3333/leaveManagement/getLeaves`,{
+            withCredentials:true,
+            headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'}
+        })
         .then((res)=>{
             console.log("************?*********",res.data.reports)
           setResports(res.data.reports)

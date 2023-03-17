@@ -60,7 +60,10 @@ const Hierarchy = ()=>{
 
     ])
     useEffect(()=>{
-        axios.get('http://localhost:3333/show-users')
+        axios.get('http://localhost:3333/show-users',{
+            withCredentials:true,
+            headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'}
+        })
         .then((res)=>{
            console.log("responsess-->",res.data.users)
            setPoeple1(res.data.users)

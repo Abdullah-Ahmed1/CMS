@@ -68,7 +68,10 @@ export default function LeaveManagementTable({userId,projects,reports,refreshRep
           }
           setOpen(false);
 
-           axios.post(`http://localhost:3333/leaveManagement/add/${userId}`,data)
+           axios.post(`http://localhost:3333/leaveManagement/add`,data,{
+            withCredentials:true,
+            headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'}
+        })
            .then((res)=>{
               refreshReports()
               //------------ to clean dialog input fields----------------------
@@ -118,7 +121,7 @@ export default function LeaveManagementTable({userId,projects,reports,refreshRep
   return (
     <>
     <DateSnackbar  handleCloseSnack  = {handleCloseSnack} open =  {openSnack}/>
-    <LeaveManagementDialog open = {open} totalLeaves = {totalLeaves}  current = {current} user = {projects} handleClose = {handleClose} days = {days} handleChangeDays = {handleChangeDays} reason = {reason}  handleChangeReason = {handleChangeReason} handleChangeStatus = {handleChangeStatus} status = {status}  handleSubmit = {handleSubmit} />
+    <LeaveManagementDialog open = {open} totalLeaves = {totalLeaves}  current = {current} projects = {projects} handleClose = {handleClose} days = {days} handleChangeDays = {handleChangeDays} reason = {reason}  handleChangeReason = {handleChangeReason} handleChangeStatus = {handleChangeStatus} status = {status}  handleSubmit = {handleSubmit} />
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>

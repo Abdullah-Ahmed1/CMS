@@ -9,8 +9,9 @@ module.exports = {
         console.log("add report--*--",req.body.row)
         const date = new Date(`${(new Date().getMonth())+1}/${req.body.row}/${new Date().getFullYear()}`)
         try{  
+            const userId = res.locals.decodedId
            const record = await DailyReport.findOne({date: date })
-           console.log("!!!!!!!!!",record)
+        //    console.log("!!!!!!!!!",record)
            if(record){
             await DailyReport.findByIdAndUpdate({_id : record._id},{ 
                 status : req.body.status,
@@ -26,7 +27,7 @@ module.exports = {
             })
 
            } else{
-            const userId = req.params.userId
+            
             await  DailyReport.create({
                 status : req.body.status,
                 reasonOfLeave : req.body.reason,
@@ -46,15 +47,14 @@ module.exports = {
     }
     },
     getReport  : async(req,res)=>{
+        console.log("get leaves route reached")
          try{
-            const userId = req.params.userId
-            console.log("!!!!!!",req.params.userId)
-            console.log("reached get report controller")
+            const userId = res.locals.decodedId
             const reports = await DailyReport.find({
                 user : userId
             })
             
-            res.status(200).send({
+           return res.status(200).send({
                 message : "success",
                 reports : reports 
             })

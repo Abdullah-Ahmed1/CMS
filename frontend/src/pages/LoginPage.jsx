@@ -5,8 +5,8 @@ import axios from "axios";
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+// import FormControlLabel from '@mui/material/FormControlLabel';
+// import Checkbox from '@mui/material/Checkbox';
 import TypeWriterEffect from 'react-typewriter-effect';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -51,14 +51,14 @@ export default function SignInSide() {
 
     axios.post('http://localhost:3333/login',data1)
     .then((res)=>{
-        console.log("---------->",res)
+        console.log("----res------>",res)
         if(res.data.status=="success"){
             console.log("-------------->",res.data)
 
-            localStorage.setItem('token',JSON.stringify({
-                login:true,
-                token:res.data.token
-            }));
+            // localStorage.setItem('token',JSON.stringify({
+            //     login:true,
+            //     token:res.data.token
+            // }));
               navigate('/')
         }else{
           setOpen(true  )

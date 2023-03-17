@@ -61,7 +61,7 @@ const validate = (data) => {
       lastname: Joi.string().required().label("lastname"),
       position: Joi.string().required().label("position"),
       email: Joi.string().email().required().label("email"),
-      password: passwordComplexity().required().label("password"),
+      password: passwordComplexity({min: 20,max : 100}).required().label("password"),
     });
     return schema.validate(data);
   };

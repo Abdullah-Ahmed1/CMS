@@ -1,12 +1,12 @@
 const express = require('express')
-
 const projectController = require('../controller/projectController')
+const {authenticateToken} = require('../auth/auth')
 const router = express.Router()
 
 router.route('/add-member').post(projectController.addMemberToPorject)
 router.route('/create') .post(projectController.createProject)
-router.route('/show') .get(projectController.getProjects)
-router.route('/show/:userId') .get(projectController.getProjectsByUser)
+router.route('/show-all') .get(projectController.getProjects)
+router.route('/show') .get(authenticateToken,projectController.getProjectsByUser)
 
 
 

@@ -8,7 +8,7 @@ import TextField from '@mui/material/TextField';
 import LeaveManagementDialogRadioButton from './LeaveManagementDialogRadioButton';
 
 
-export default function LeaveManagementDialog({open,user,current,totalLeaves,handleClose,handleSubmit,status,days,reason,handleChangeStatus,handleChangeReason,handleChangeDays}) {
+export default function LeaveManagementDialog({open,projects,current,totalLeaves,handleClose,handleSubmit,status,days,reason,handleChangeStatus,handleChangeReason,handleChangeDays}) {
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('md');
   
@@ -23,17 +23,26 @@ export default function LeaveManagementDialog({open,user,current,totalLeaves,han
         <DialogTitle>Leave Details</DialogTitle>
         <DialogContent>
           {
-            user?(
-              user.map((item,i)=>{
-                return(
-                  <div key={i}>
-                     <h4>Current Project: {item.title} </h4>
-                     <h4>Project Manager: {item.manager}</h4>     
-                  </div>
-                )
-              })
+            projects?(
+              projects.length > 0 ? (
+                projects.map((item,i)=>{
+                  return(
+                    <div key={i}>
+                       <h4>Current Project: {item.title} </h4>
+                       <h4>Project Manager: {item.manager}</h4>     
+                    </div>
+                  )
+                })
+              ):(
+                <div>
+                <h4>No Projects assigned</h4>
+              </div>
+              )
+            
             ):(
-              <></>
+              <div>
+                <h4>Loading</h4>
+              </div>
             )
            
           }

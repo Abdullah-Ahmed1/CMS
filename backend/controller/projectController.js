@@ -84,9 +84,9 @@ addMemberToPorject : async(req,res)=>{
 ,
 
     getProjectsByUser : async (req,res)=>{
-       try{ const userId = req.params.userId
-        const projects = await Project
-        .find({})
+       try{ 
+        const id = res.locals.decodedId
+        const projects = await Project.find({})
         // .populate({
         //     path : "members"
         // })
@@ -95,7 +95,7 @@ addMemberToPorject : async(req,res)=>{
         let projectIds = []
         const list =   projects.map((item)=>{
             // console.log("projects: " ,item)
-            if(item.members.includes(userId)){
+            if(item.members.includes(id)){
                 projectIds.push(item._id)
             }
          
@@ -108,7 +108,7 @@ addMemberToPorject : async(req,res)=>{
             "$in" : projectIds
        }})
 
-        console.log('-**-->',temp)
+        // console.log('-**-->',temp)
 
 
         res.status(200).send({

@@ -5,20 +5,26 @@ import Typography from '@mui/material/Typography';
 import { useEffect,useState } from "react";
 import axios from 'axios'
 import ProjectsTable from "../components/Projects";
+
+axios.defaults.withCredentials = true
 const HomePage = ({userId})=>{
         const [user,setUser] = useState({})
         const [projects,setProjects] = useState([])
     useEffect(()=>{
-        // const userId = '64081d344d9fbcae0698c5b3'
         async function getuser(){
-            const user =  await axios.get(`http://localhost:3333/show-user/${userId}`)
-            // console.log("---->",user)
+            const user =  await axios.get(`http://localhost:3333/show-user`,{
+                withCredentials:true,
+                headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'}
+            })
             setUser(()=> user.data.user )
 
         }
 
         async function getProjects(){
-            const projects =  await axios.get(`http://localhost:3333/projects/show/${userId}`)
+            const projects =  await axios.get(`http://localhost:3333/projects/show`,{
+                withCredentials:true,
+                headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'}
+            })
             // console.log("---->>>>",projects)
             setProjects(()=> projects.data.projects )
         }
@@ -33,7 +39,10 @@ const HomePage = ({userId})=>{
          function b(){
             async function a(){
                 console.log("aa")
-                console.log( await axios.get(`http://localhost:3333/projects/show/${userId}`),"lwkedm")
+                console.log( await axios.get(`http://localhost:3333/projects/show`,{
+                    withCredentials:true,
+                    headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'}
+                }),"lwkedm")
                 // console.log("b")
                 console.log("d")
                 

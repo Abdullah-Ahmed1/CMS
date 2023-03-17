@@ -3,6 +3,7 @@ const Mongoose = require("mongoose");
 require("../models/users.model");
 const User = Mongoose.model("User");
 const {validate} = require("../models/users.model")
+const bcrypt = require("bcrypt");
 
 module.exports={
     test:(req,res)=>{
@@ -21,12 +22,13 @@ module.exports={
     register  :async(req,res)=>{
         try{
             console.log("register reached")
-
+            console.log("hashed password is : " , req.body.password)
             const  { error } = validate(req.body);
             if(error){
-             return  res.send({
+                console.log("error in validation : ",error)
+             return res.status(400).send({
                 status : "fail",
-                message: error.details
+                message: "something went wrong with validation"
                })
             }
 
@@ -58,21 +60,25 @@ module.exports={
         const user = await User.findOne({
             email:req.body.email
         })
+       const validPass  =  await bcrypt.compare(
+            req.body.password,
+            user.password
+          );
         if(!user)
            return res.status(400).send({
                 status:"failure",
                 message:"Invalid username or password"
             })
-        else if(user.password !== req.body.password){
+        else if(!validPass){
            return res.status(400).send({
                 status:"failure",
                 message:"Invalid username or password"
             })
         }else{
                
-        const token = jwt.sign({email:user.email, password:user.password},'12345')
-        
-         return res.status(200).send({
+        const token = jwt.sign({email:user.email, id : user._id,password:user.password},'12345')
+        res.cookie('token', token, { httpOnly: true });
+         return res.status(200).json({
             status:"success",
             message: "login sucessfull",
             token : token
@@ -104,10 +110,11 @@ module.exports={
     },
 
     getUserById : async(req,res)=>{
-        const userId = req.params.id 
-        console.log(userId)
+            
         try{
-            const user =  await User.findById({_id:userId})
+             const id = res.locals.decodedId
+
+            const user =  await User.findById({_id:id})
             .populate({
                 path : 'currentProjects'
             })
@@ -124,6 +131,9 @@ module.exports={
            
         }catch(err){
             console.log(err)
+            return res.status(400).send({
+                message: "bad request"
+            })
         }
         
     },

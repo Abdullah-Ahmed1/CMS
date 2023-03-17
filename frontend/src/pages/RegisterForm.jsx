@@ -19,6 +19,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 // import { useForm, Controller } from "react-hook-form";
 import { useState } from 'react';
 import _ from 'lodash';
+import bcrypt from 'bcryptjs'
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -194,13 +195,14 @@ const [confirmPasswordValidated,setConfirmPasswordValidated] = useState(false);
     confirmPassValidate();
     // console.log("validated-------",validated)
     if(firstnameValidated && lastnameValidated && emailValidated && passwordValidated && confirmPasswordValidated){
+      const salt = bcrypt.genSaltSync(10)
       const data = new FormData(event.currentTarget);
       const data2 ={ 
         firstname: data.get('firstname'),
         lastname: data.get('lastname'),
         email: data.get('email'),
         position : data.get('position'),
-        password: data.get('password'),
+        password:  bcrypt.hashSync(data.get('password'), salt) ,
       }
       console.log("submitted",data2)
       axios.post('http://localhost:3333/register',data2)
