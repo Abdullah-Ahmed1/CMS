@@ -39,6 +39,7 @@ const userSchema = new mongoose.Schema({
     leaves:{
        type:Number 
     },
+    verified: { type: Boolean, default: false },
     currentProjects : {
         type:[
             {
