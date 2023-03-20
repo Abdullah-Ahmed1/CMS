@@ -44,22 +44,19 @@ module.exports={
                 status:'bad request',
                 message:'email already exists'    
             })
-        }else{
+        }
             const created =  await User.create(req.body)
-
-
             const token = await new Token({
                 userId: created._id,
                 token: crypto.randomBytes(32).toString("hex"),
-              }).save();
-
-              const url = `${process.env.BASE_URL}users/${created.id}/verify/${token.token}`;
-              const response =  await sendEmail(created.email, "Verify Email", url);
+            }).save();
+            const url = `${process.env.BASE_URL}users/${created.id}/verify/${token.token}`;
+            const response =  await sendEmail(created.email, "Verify Email", url);
             return res.status(200).send({
                 status:'success',
                 message:'An Email sent to your account please verify'   
             })
-        }   
+           
         }catch(err){
             console.log(err)
         }
@@ -83,7 +80,7 @@ module.exports={
             console.log("token->",token)
             if (!token) return res.status(400).send({ message: "Invalid link" });
             console.log("reached");
-            // { _id: user._id, verified: true }
+           
             const a = await User.updateOne({ _id: user._id }, { verified: true });
             await token.deleteOne({_id: token._id});
       
@@ -96,7 +93,7 @@ module.exports={
 
 
 ,
-    login:async(req,res)=>{
+    login : async(req,res)=>{
        try{
         console.log(" login reachedddddddd")
         const user = await User.findOne({
@@ -127,16 +124,21 @@ module.exports={
         }
             
             
-        const token = jwt.sign({email:user.email, id : user._id,password:user.password},'12345')
-        res.cookie('token', token, { httpOnly: true });
+        const token = jwt.sign({email:user.email, id : user._id,password:user.password},process.env.JWT_SECRET)
+        res.cookie('token', token,
+        { 
+          httpOnly: true ,
+        //   expires:new Date(Date.now() + 1000)
+        }
+         );
          return res.status(200).json({
             status:"success",
             message: "login sucessfull",
-            token : token
         })
         
         
        }catch(err){
+        console.log(err)
         return res.status(400).send({
             status:"fail",
             message: "something went wrong",
@@ -144,6 +146,27 @@ module.exports={
        }
     }
     ,
+    me : (req,res)=>{
+        console.log("resssss")
+        const id = res.locals.decodedId
+        return res.status(200).send({
+            status : "success"
+        })
+    },
+
+    logout : async(req,res)=>{
+        try{
+            res.clearCookie('token')
+            return res.status(200).json({
+               status:"success",
+               message: "logout sucessfull",
+           })
+        }catch(err){
+            console.log(err)
+        }
+       
+    },
+
     getAllUsers:async(req,res)=>{
         try{
             const users =  await User.find({})
@@ -174,11 +197,11 @@ module.exports={
                     status:"success",
                     user : user  
                 })
-            }else{
+            }
               return  res.status(404).send({
                     status:"not found",
                 })
-            }
+            
            
         }catch(err){
             console.log(err)
@@ -200,12 +223,12 @@ module.exports={
                 status:"success",
                 message:" User deleted successfully"
              })
-          } else{
+          } 
             return res.status(400).send({
                 status:"fail",
                 message:"something went wrong"
              })
-          } 
+        
         }catch(err){
             console.log(err)
         }

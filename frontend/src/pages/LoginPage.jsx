@@ -55,12 +55,6 @@ export default function SignInSide() {
         console.log("----res------>",res)
         if(res.data.status=="success"){
             console.log("-------------->",res.data)
-            
-
-            // localStorage.setItem('token',JSON.stringify({
-            //     login:true,
-            //     token:res.data.token
-            // }));
               navigate('/')
         }else{
           setOpen(true  )
@@ -182,11 +176,11 @@ export default function SignInSide() {
                 Sign In
               </Button>
               <Grid container>
-                <Grid item xs>
+                {/* <Grid item xs>
                   <Link to ="/forget  " >
                     Forgot password?
                   </Link>
-                </Grid>
+                </Grid> */}
                 <Grid item>
                   <Link style={{cursor:"pointer", color:"#05386b"}}   to = "/register" >
                     {"Don't have an account? Sign Up"}

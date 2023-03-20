@@ -7,7 +7,7 @@ import axios from 'axios'
 import ProjectsTable from "../components/Projects";
 
 axios.defaults.withCredentials = true
-const HomePage = ({userId})=>{
+const HomePage = ()=>{
         const [user,setUser] = useState({})
         const [projects,setProjects] = useState([])
     useEffect(()=>{
@@ -17,7 +17,6 @@ const HomePage = ({userId})=>{
                 headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'}
             })
             setUser(()=> user.data.user )
-
         }
 
         async function getProjects(){
@@ -45,7 +44,6 @@ const HomePage = ({userId})=>{
                 }),"lwkedm")
                 // console.log("b")
                 console.log("d")
-                
             }
             function main(){
                 console.log("hye")
@@ -58,7 +56,6 @@ const HomePage = ({userId})=>{
     },[])
     return(
         <Box sx = {{}}>
-            {/* <NavBar/> */}
             
             <Grid container flexDirection={'row'} sx = {{margin:"100px 100px"}} justifyContent={'center'} alignItems={"center"}>
                 <Grid lg={6}>

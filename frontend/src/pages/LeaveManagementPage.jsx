@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import LeaveManagementTable from "../components/LeaveManagementTable"
 import NavBar from "../components/NavBar"
 
-const LeaveManagementPage = ({userId})=>{
+const LeaveManagementPage = ()=>{
     const  [projects,setProjects] = useState(null)
     const [reports,setResports] = useState([])
 
@@ -45,7 +45,7 @@ const LeaveManagementPage = ({userId})=>{
         <div>
            <NavBar/> 
             <h3 style={{marginLeft : "10px"}}>Leave Management</h3>
-            <LeaveManagementTable  reports = {reports} projects ={projects} userId = {userId}  refreshReports = {refreshReports}/>
+            <LeaveManagementTable  reports = {reports} projects ={projects}   refreshReports = {refreshReports}/>
         </div>
     )
 }

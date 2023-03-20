@@ -29,7 +29,7 @@ export default function ProjectsTable({projects}) {
             <TableCell align="right">Start Date</TableCell>
             <TableCell align="right">Manager</TableCell>
             <TableCell align="right">Stack</TableCell>
-            {/* <TableCell align="right">Protein&nbsp;(g)</TableCell> */}
+           
           </TableRow>
         </TableHead>
         <TableBody>

@@ -1,17 +1,15 @@
 const Mongoose = require("mongoose");
 const DailyReport = Mongoose.model("DailyReport");
-
+const {FailResponse} = require('../utils/responses')
 
 module.exports = {
 
     addReport  : async(req,res)=>{
-        // console.log("!!!!!!",req.body)
         console.log("add report--*--",req.body.row)
         const date = new Date(`${(new Date().getMonth())+1}/${req.body.row}/${new Date().getFullYear()}`)
         try{  
             const userId = res.locals.decodedId
            const record = await DailyReport.findOne({date: date })
-        //    console.log("!!!!!!!!!",record)
            if(record){
             await DailyReport.findByIdAndUpdate({_id : record._id},{ 
                 status : req.body.status,
@@ -25,7 +23,6 @@ module.exports = {
                 status:"success",
                 message:"updated successfully"
             })
-
            } else{
             
             await  DailyReport.create({
@@ -44,6 +41,9 @@ module.exports = {
          
     }catch(err){
         console.log(err)
+        res.status(400).send({
+            ...FailResponse
+        })
     }
     },
     getReport  : async(req,res)=>{
@@ -61,6 +61,9 @@ module.exports = {
 
         }catch(err){
             console.log(err)
+            res.status(400).send({
+                ...FailResponse
+            })
         }
        
 

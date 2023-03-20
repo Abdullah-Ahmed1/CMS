@@ -3,13 +3,14 @@ const jwt = require("jsonwebtoken");
         console.log("reached-------------middleware")    
     try{
             const token =  req.cookies.token
-            const decoded = jwt.verify(token,'12345')
+            const decoded = jwt.verify(token,process.env.JWT_SECRET)
             res.locals.decodedId = decoded.id 
             next()
         }catch(err){
+            
             res.locals.authenticated = false
             return  res.status(400).send({
-                maessage : "bad request"
+                message : "bad request"
             })
         }
     

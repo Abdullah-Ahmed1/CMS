@@ -168,6 +168,7 @@ export default function LeaveManagementTable({userId,projects,reports,refreshRep
                           item.status=="Absent"?(
                           <>
                              <h4>Reason : {item.reasonOfLeave}</h4>
+                             <h4>Reason : {item.reasonOfLeave}</h4>
                           </>
                           ):(
                             <>

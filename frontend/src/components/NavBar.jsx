@@ -13,6 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import AdbIcon from '@mui/icons-material/Adb';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const pages = [
   {
@@ -25,7 +26,7 @@ const pages = [
   },
   
 ];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Logout'];
 
 function NavBar() {
   const navigate = useNavigate();
@@ -44,11 +45,18 @@ function NavBar() {
   };
 
   const handleCloseUserMenu = () => {
+
+      axios.get('http://localhost:3333/logout')
+      .then((res)=>{
+        console.log(res)
+      })
+    navigate('/login')
+
     setAnchorElUser(null);
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static"  sx = {{backgroundColor : "#5cdb95"}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
@@ -165,6 +173,9 @@ function NavBar() {
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))} */}
+                <MenuItem  onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">Logout</Typography>
+                </MenuItem>
             </Menu>
           </Box>
         </Toolbar>

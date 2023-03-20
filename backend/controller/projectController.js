@@ -8,7 +8,7 @@ module.exports = {
     try{
         await Project.create(req.body)
 
-        res.status(200).send({
+        return res.status(200).send({
           message: "project created successfully"  
         })
     }catch(err){
@@ -19,7 +19,6 @@ module.exports = {
 
 addMemberToPorject : async(req,res)=>{
     const {project_id,user_id} = req.body;
-    // const userId = req.params.userId 
     try{
         console.log("add member to project reached")
 
@@ -27,31 +26,32 @@ addMemberToPorject : async(req,res)=>{
 
         if(project){
             if(project.members.includes(user_id)){
-                res.status(400).send({
+               return res.status(400).send({
                     message : "user already exists"
                 })
-            }else{
-                await Project.updateOne(
-                    {_id: project_id},
-                    { $push: { 'members': user_id } },
-                    {upsert: true}
-                    )
-                await User.updateOne(
-                    {_id :user_id} ,
-                    { $push: { 'currentProjects': project_id } },
-                    {upsert: true}
-                    )
-
-                    res.status(200).send({
-                        message:"member added successfully"
-                    })
-
             }
-        }else{
-            res.status(400).send({
+
+            await Project.updateOne(
+                {_id: project_id},
+                { $push: { 'members': user_id } },
+                {upsert: true}
+                )
+            await User.updateOne(
+                {_id :user_id} ,
+                { $push: { 'currentProjects': project_id } },
+                {upsert: true}
+                )
+
+                return res.status(200).send({
+                    message:"member added successfully"
+                })
+
+            
+        }
+           return res.status(400).send({
                 message: "Project doesnot exist"
             })
-        }
+        
     }catch(err){
         console.log("---------->",err)
     }
@@ -87,31 +87,22 @@ addMemberToPorject : async(req,res)=>{
        try{ 
         const id = res.locals.decodedId
         const projects = await Project.find({})
-        // .populate({
-        //     path : "members"
-        // })
+        
 
         // here we want to filter projects that includes specific username
         let projectIds = []
-        const list =   projects.map((item)=>{
-            // console.log("projects: " ,item)
+         projects.map((item)=>{
             if(item.members.includes(id)){
                 projectIds.push(item._id)
             }
          
         })
 
-        // console.log("projectsIds",projectIds)
-
-
         const temp = await Project.find({"_id":{
             "$in" : projectIds
        }})
 
-        // console.log('-**-->',temp)
-
-
-        res.status(200).send({
+       return res.status(200).send({
             projects : temp
         })
 
