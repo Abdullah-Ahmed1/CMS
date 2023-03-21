@@ -24,7 +24,6 @@ const HomePage = ()=>{
                 withCredentials:true,
                 headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'}
             })
-            // console.log("---->>>>",projects)
             setProjects(()=> projects.data.projects )
         }
         getuser()
@@ -42,7 +41,6 @@ const HomePage = ()=>{
                     withCredentials:true,
                     headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'}
                 }),"lwkedm")
-                // console.log("b")
                 console.log("d")
             }
             function main(){

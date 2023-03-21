@@ -17,27 +17,10 @@ import axios from 'axios'
 import UserProtectedRoute from './components/ProtectedRoutes/UserProtectedRoute'
 
 
-// const validateToken = ()=>{
-//   // console.log("reached validate token")
-//   return new Promise((resolve,reject)=>{
-//     axios.get('http://localhost:3333/me',{
-//       withCredentials:true,
-//       headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'}
-//   })
-//     .then((res)=>{
-//       resolve(true)
-//     })
-//     .catch((err)=>{
-//       reject(false)
-//     }) 
-//   })
-// }
 
 
 
 function App() {
-  // // const [count, setCount] = useState(0)
-  //   const [userId,setUSerId] = useState('6410193d52adec0926941b19')   
     
 
   return (

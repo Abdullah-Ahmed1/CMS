@@ -59,7 +59,6 @@ function NavBar() {
     <AppBar position="static"  sx = {{backgroundColor : "#5cdb95"}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
           <Typography
             variant="h6"
             noWrap
@@ -107,11 +106,7 @@ function NavBar() {
                 display: { xs: 'block', md: 'block' },
               }}
             >
-              {/* {pages.map((page,i) => (
-                <MenuItem key={i} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))} */}
+          
             </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -168,11 +163,7 @@ function NavBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {/* {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))} */}
+              
                 <MenuItem  onClick={handleCloseUserMenu}>
                   <Typography textAlign="center">Logout</Typography>
                 </MenuItem>

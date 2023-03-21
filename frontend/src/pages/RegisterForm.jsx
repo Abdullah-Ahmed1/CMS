@@ -3,20 +3,16 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-// import FormControlLabel from '@mui/material/FormControlLabel';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import axios from "axios";
-// import Checkbox from '@mui/material/Checkbox';
 import TypeWriterEffect from 'react-typewriter-effect';
 import { Link } from "react-router-dom";
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-// import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-// import { useForm, Controller } from "react-hook-form";
 import { useState } from 'react';
 import _ from 'lodash';
 import bcrypt from 'bcryptjs'
@@ -72,9 +68,7 @@ const [confirmPasswordValidated,setConfirmPasswordValidated] = useState(false);
 
 //--------------------------------------------------------------
     const firstnameValidate=()=>{
-      console.log(firstName)
       const firstnameValidator1 = /^[A-Za-z]+$/;
-     // const firstnameValidator2 = ;
       if(firstName===""  ){
         setFirstNameError(true)
         setFirstNameErrorText("first name is required")
@@ -94,9 +88,7 @@ const [confirmPasswordValidated,setConfirmPasswordValidated] = useState(false);
       }
     }
     const lastnameValidate=()=>{
-      console.log(lastName)
       const firstnameValidator1 = /^[A-Za-z]+$/;
-     // const firstnameValidator2 = ;
       if(lastName==="" ){
         setLastNameError(true)
         setLastNameErrorText("first name is required")
@@ -193,7 +185,6 @@ const [confirmPasswordValidated,setConfirmPasswordValidated] = useState(false);
     positionValidate()
     validatePassword();
     confirmPassValidate();
-    // console.log("validated-------",validated)
     if(firstnameValidated && lastnameValidated && emailValidated && passwordValidated && confirmPasswordValidated){
       const salt = bcrypt.genSaltSync(10)
       const data = new FormData(event.currentTarget);
@@ -204,14 +195,11 @@ const [confirmPasswordValidated,setConfirmPasswordValidated] = useState(false);
         position : data.get('position'),
         password:  bcrypt.hashSync(data.get('password'), salt) ,
       }
-      console.log("submitted",data2)
       axios.post('http://localhost:3333/register',data2)
           .then((res)=>{
-              console.log(" register form--->",res.data.message)  
               setResponseMsg({msg : res.data.message,status:"success"})
                setOpen(true) 
           }).catch((error)=>{
-              console.log("-",error.response.data )
               setResponseMsg({msg:error.response.data.message,status:"error"})
               setOpen(true) 
           })    
@@ -241,7 +229,6 @@ const [confirmPasswordValidated,setConfirmPasswordValidated] = useState(false);
           sm={4}
           md={7}
           sx={{
-             // backgroundImage: 'url(https://source.unsplash.com/random)',
             backgroundRepeat: 'no-repeat',
             backgroundColor: "#5cdb95",
             backgroundSize: 'cover',
@@ -254,7 +241,6 @@ const [confirmPasswordValidated,setConfirmPasswordValidated] = useState(false);
              <TypeWriterEffect
             
             textStyle={{
-                //fontFamily: 'Red Hat Display',
                 color: '#05386b',
                 fontWeight: 500,
                 fontSize: '4.5em',
@@ -386,12 +372,7 @@ const [confirmPasswordValidated,setConfirmPasswordValidated] = useState(false);
                   onBlur={confirmPassValidate}
                 />
               </Grid>
-              {/* <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" sx = {{color:"#5cdb95",'&.Mui-checked':{color:"#5cdb95"}}} />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
-              </Grid> */}
+             
             </Grid>
             <Button
               type="submit"

@@ -10,11 +10,9 @@ const checkUserSession = async () => {
             withCredentials: true,
             headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' }
         })
-        // console.log("*********_*********",result)
-
+      
         return true;
     } catch (err) {
-        // console.log("*********_*********",err)
         return false
     }
 

@@ -5,8 +5,6 @@ import axios from "axios";
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-// import FormControlLabel from '@mui/material/FormControlLabel';
-// import Checkbox from '@mui/material/Checkbox';
 import TypeWriterEffect from 'react-typewriter-effect';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -41,10 +39,7 @@ export default function SignInSide() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    // console.log({
-    //   email: data.get('email'),
-    //   password: data.get('password'),
-    // });
+ 
     const data1 = {
       email: data.get('email'),
       password: data.get('password'),
@@ -54,13 +49,11 @@ export default function SignInSide() {
     .then((res)=>{
         console.log("----res------>",res)
         if(res.data.status=="success"){
-            console.log("-------------->",res.data)
               navigate('/')
         }else{
           setOpen(true  )
         }
     }).catch((err)=>{
-      console.log("catched----->",err.response.data.message)
       setError(err.response.data.message)
       setOpen(true  )
     })
@@ -90,7 +83,6 @@ export default function SignInSide() {
           sm={4}
           md={7}
           sx={{
-             // backgroundImage: 'url(https://source.unsplash.com/random)',
             backgroundRepeat: 'no-repeat',
             backgroundColor: "#5cdb95",
             backgroundSize: 'cover',
@@ -103,7 +95,6 @@ export default function SignInSide() {
              <TypeWriterEffect
             
             textStyle={{
-                //fontFamily: 'Red Hat Display',
                 color: '#05386b',
                 fontWeight: 500,
                 fontSize: '4.5em',
@@ -135,9 +126,7 @@ export default function SignInSide() {
             <Avatar sx={{ m: 1, bgcolor: '#5cdb95' }}>
               <LockOutlinedIcon />
             </Avatar>
-            {/* <img style={{width:"200px",marginLeft:"25px",marginRight:"50px",marginBottom:"20px"}} src={'/logo2.png'} alt="iblogs" /> */}
             <Typography component="h1" variant="h5" sx = {{color:"#05386b"}} >
-              {/* Sign in */}
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
@@ -163,10 +152,7 @@ export default function SignInSide() {
                 id="password"
                 autoComplete="current-password"
               />
-              {/* <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              /> */}
+             
               <Button
                 type="submit"
                 fullWidth
@@ -176,11 +162,7 @@ export default function SignInSide() {
                 Sign In
               </Button>
               <Grid container>
-                {/* <Grid item xs>
-                  <Link to ="/forget  " >
-                    Forgot password?
-                  </Link>
-                </Grid> */}
+               
                 <Grid item>
                   <Link style={{cursor:"pointer", color:"#05386b"}}   to = "/register" >
                     {"Don't have an account? Sign Up"}

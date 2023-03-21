@@ -44,7 +44,6 @@ export default function LeaveManagementTable({userId,projects,reports,refreshRep
       const handleChangeDays = (event)=>{
         setDays(event.target.value)
       }
-      console.log("!!!!!!!!!!!!!****",reports)
 
 
       
@@ -58,7 +57,7 @@ export default function LeaveManagementTable({userId,projects,reports,refreshRep
 
 
       const handleSubmit = ()=>{
-        console.log("row is : ",row)
+      
           const data ={
             row : row,
             status : status,
@@ -98,21 +97,16 @@ export default function LeaveManagementTable({userId,projects,reports,refreshRep
 
 
        React.useEffect(()=>{
-        console.log("reacheddddddddddddddddddddddddddddddddddddddddddddddddddddd")
             function LeavesCounter(){
              
               var count  = 0
-              console.log("reports length!!!!!!!!",reports)
               if(reports.length != 0 ){
                 reports.map((item)=>{
-                  console.log(item.status == "Absent","-*****/")
                   if(item.status == "Absent"){
                       count = count + parseInt(item.DaysOfLeave)
                   }
                 })
-
               }
-               
                 setTotalLeaves(count)
             }
             LeavesCounter()
@@ -140,7 +134,6 @@ export default function LeaveManagementTable({userId,projects,reports,refreshRep
                 if(new Date().getDate()> i){
                   reports.map((item)=>{
                     if(new Date(item.date).getDate() == i+1){
-                      // console.log("zzzzzzzzzz",item)
                        setStatus(()=> item.status)
                        setReason(()=>item.reasonOfLeave) 
                     }
@@ -177,7 +170,7 @@ export default function LeaveManagementTable({userId,projects,reports,refreshRep
                           )
                         }
                         </div>
-                      )
+     )
                   }
               })}
              </TableCell>              

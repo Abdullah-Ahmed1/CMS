@@ -15,7 +15,6 @@ const VerifyUser = ()=>{
 				const { data } = await axios.get(url);
 				setValidUrl(true);
 			} catch (error) {
-				// console.log(error);
 				setValidUrl(false);
 			}
 		};

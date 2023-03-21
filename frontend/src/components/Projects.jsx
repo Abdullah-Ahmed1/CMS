@@ -7,17 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-// function createData(name, calories, fat, carbs, protein) {
-//   return { name, calories, fat, carbs, protein };
-// }
 
-// const rows = [
-//   createData('Project 1', '02/10/2022', "Muhammad jawad", 'MERN'),
-//   createData('Project 2','02/11/2022', "Muhammad jawad", 'MEVN'),
-//   createData('Project 3','02/12/2022', "Muhammad jawad", 'MERN'),
-//   createData('Project 4','02/01/20223', "Muhammad jawad", 'MEVN'),
-//   createData('Project 5','02/04/2023', "Muhammad jawad", 'MERN'),
-// ];
 
 export default function ProjectsTable({projects}) {
   return (

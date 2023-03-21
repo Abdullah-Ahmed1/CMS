@@ -65,7 +65,6 @@ const Hierarchy = ()=>{
             headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'}
         })
         .then((res)=>{
-           console.log("responsess-->",res.data.users)
            setPoeple1(res.data.users)
         })
    },[])
