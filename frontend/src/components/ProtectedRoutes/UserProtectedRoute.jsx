@@ -20,7 +20,7 @@ const checkUserSession = async () => {
 
 const UserProtectedRoute = () => {
     // debugger;
-    const [loggedIn, setLoggedIn] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(true);
 
     useEffect(() => {
         // debugger;
