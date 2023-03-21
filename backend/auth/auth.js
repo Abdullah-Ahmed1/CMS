@@ -1,6 +1,5 @@
 const jwt = require("jsonwebtoken");
   const authenticateToken  =  (req,res,next)=>{
-        console.log("reached-------------middleware")    
     try{
             const token =  req.cookies.token
             const decoded = jwt.verify(token,process.env.JWT_SECRET)
@@ -9,8 +8,8 @@ const jwt = require("jsonwebtoken");
         }catch(err){
             
             res.locals.authenticated = false
-            return  res.status(400).send({
-                message : "bad request"
+            return  res.status(401).send({
+                message : "unautherized"
             })
         }
     

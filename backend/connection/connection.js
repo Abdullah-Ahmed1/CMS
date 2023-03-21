@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 try{
     mongoose.connect(
-        "mongodb+srv://abdullahahmed10001:zxcZXC@cluster0.b50mkwe.mongodb.net/?retryWrites=true&w=majority",
+        process.env.MONGODB_URL,
         { useNewUrlParser: true },
         
       );

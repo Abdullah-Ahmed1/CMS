@@ -5,7 +5,6 @@ const {FailResponse} = require('../utils/responses')
 module.exports = {
 
     addReport  : async(req,res)=>{
-        console.log("add report--*--",req.body.row)
         const date = new Date(`${(new Date().getMonth())+1}/${req.body.row}/${new Date().getFullYear()}`)
         try{  
             const userId = res.locals.decodedId
@@ -15,9 +14,7 @@ module.exports = {
                 status : req.body.status,
                 reasonOfLeave : req.body.reason,
                 DaysOfLeave : req.body.days,
-                // date : date,
-                // user:  userId
-            })
+                           })
 
             res.send({
                 status:"success",

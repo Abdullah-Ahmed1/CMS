@@ -71,10 +71,10 @@ addMemberToPorject : async(req,res)=>{
                 }  
             })
             .exec()
-            res.send({projects})
+           return res.send({projects})
         }catch(err){
             console.log(err)
-            res.status(400).send({
+            return res.status(400).send({
                 status:"fail",
                 message : "something went wrong" 
             })
@@ -87,9 +87,6 @@ addMemberToPorject : async(req,res)=>{
        try{ 
         const id = res.locals.decodedId
         const projects = await Project.find({})
-        
-
-        // here we want to filter projects that includes specific username
         let projectIds = []
          projects.map((item)=>{
             if(item.members.includes(id)){
@@ -109,9 +106,7 @@ addMemberToPorject : async(req,res)=>{
     }catch(err){
         console.log(err)
     }
-
-
-   
+    
     }
 
 }
