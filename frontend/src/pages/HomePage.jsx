@@ -60,7 +60,7 @@ const HomePage = ()=>{
                     <img src="profile.png" alt="profileimage" style={{borderRadius:"100%"}} />
                 </Grid>
                 <Grid lg={5}>
-                    <Typography>Firstname : {user.firstname} </Typography>
+                    <Typography>Fiirstname : {user.firstname} </Typography>
                     <Typography>Lastname : {user.lastname} </Typography>
                     <Typography>Email : {user.email} </Typography>
                     <Typography>DOB : 10/10/1999 </Typography>
