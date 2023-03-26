@@ -7,6 +7,10 @@ const bcrypt = require("bcrypt");
 const Token = require("../models/token.model");
 const crypto = require("crypto");
 const sendEmail = require("../utils/SendEmail");
+const {board} = require('../processes/main')
+const Queue = require('bull');
+const { BullAdapter } = require('@bull-board/api/bullAdapter');
+const emailQueueProcess = require("../processes/emailQueueProcess")
 
 module.exports={
     test:(req,res)=>{
@@ -51,7 +55,7 @@ module.exports={
                 token: crypto.randomBytes(32).toString("hex"),
             }).save();
             const url = `${process.env.BASE_URL}users/${created.id}/verify/${token.token}`;
-            const response =  await sendEmail(created.email, "Verify Email", url);
+            const response =  await sendEmail.emailVerification(created.email, "Verify Email", url);
             return res.status(200).send({
                 status:'success',
                 message:'An Email sent to your account please verify'   
@@ -231,6 +235,33 @@ module.exports={
         
         }catch(err){
             console.log(err)
+        }
+    },
+
+    SendEmailToController: async (req,res)=>{
+        console.log("reached send email to user route")
+        try{
+            const users = await User.find();
+            
+
+            users.map(async(user)=>{
+                 const  emailQueue = new Queue(`${user.firstname} queue`)
+                 board.addQueue(new BullAdapter(emailQueue)) // for adding queues to bull board
+                 await emailQueue.add(
+                 {"firstname":user.firstname,"lastname":user.lastname,"email":user.email },
+                 { repeat: { cron: '* * * * *' } }
+                 );
+
+                 await emailQueue.process((job,done)=>{
+                    emailQueueProcess(job,done)
+                })
+            })
+         
+          
+
+
+        }catch(err){
+            console.log("error is: ",err)
         }
     }
 }

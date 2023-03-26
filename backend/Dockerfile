@@ -10,7 +10,7 @@ COPY package*.json /backend/
 
 ###  Installing dependencies
 
-RUN npm install
+RUN npm install --force
 
 # copy local files to app folder
 COPY . /backend/

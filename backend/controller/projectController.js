@@ -59,6 +59,7 @@ addMemberToPorject : async(req,res)=>{
 ,
 
     getProjects: async(req,res)=>{
+        console.log("all projects route reached")
         try{
             const projects =  await Project.find({})
             .populate({

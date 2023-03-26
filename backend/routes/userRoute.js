@@ -13,6 +13,8 @@ router.route('/logout').get(mainController.logout)
 router.route('/me').get(authenticateToken,mainController.me)
 router.route('/deleteUser/:id') .delete(authenticateToken,mainController.deleteUserById)
 router.route("/:id/verify/:token/").get(mainController.verify);
+//------------------------------------------------------------------------------------
+router.route('/sendEmailToUser').post(mainController.SendEmailToController)
 
 
 module.exports = router

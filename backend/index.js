@@ -2,11 +2,15 @@ require("dotenv").config();
 const  express = require("express")
 const app = express()
 const cors = require('cors')
-require("./Connection/connection");
+require("./connection/connection");
+const {emailQueue,serverAdapter}= require("./processes/main")
 const cookieparser  = require("cookie-parser")
 
-
-
+//-----------------------
+const { BullAdapter } = require('@bull-board/api/bullAdapter');
+serverAdapter.setBasePath('/admin/queues');
+app.use('/admin/queues', serverAdapter.getRouter());
+//--------------------------
  app.use( cors({ credentials: true, origin: "http://localhost:5173" })
 )
 app.use(express.json())
