@@ -3,11 +3,10 @@ import { useEffect, useState } from "react"
 import LeaveManagementTable from "../components/LeaveManagementTable"
 import NavBar from "../components/NavBar"
 
-const LeaveManagementPage = ()=>{
+const LeaveManagementPage = ({user})=>{
     const  [projects,setProjects] = useState(null)
     const [reports,setResports] = useState([])
-
-
+    
    
     const refreshReports = ()=>{
         console.log("refresh reports reached")
@@ -20,15 +19,7 @@ const LeaveManagementPage = ()=>{
         })
     }
 
-    useEffect(()=>{
-         axios.get(`http://localhost:3333/show-user`,{
-            withCredentials:true,
-            headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'}
-        })
-         .then((res)=>{
-            setProjects(res.data.user.currentProjects)
-         })
-    },[])
+  
 
     useEffect(()=>{
         axios.get(`http://localhost:3333/leaveManagement/getLeaves`,{
@@ -43,7 +34,7 @@ const LeaveManagementPage = ()=>{
 
     return(
         <div>
-           <NavBar/> 
+           <NavBar  user = {user}  /> 
             <h3 style={{marginLeft : "10px"}}>Leave Management</h3>
             <LeaveManagementTable  reports = {reports} projects ={projects}   refreshReports = {refreshReports}/>
         </div>

@@ -3,12 +3,10 @@ import { Tick } from 'react-crude-animated-tick';
 import { useEffect, useState } from "react";
 import axios from "axios";
 const VerifyUser = ()=>{
-
     const [validUrl, setValidUrl] = useState(false);
 	const param = useParams();
 
     useEffect(() => {
-        console.log("useEffect is callled-------------------*")
 		const verifyEmailUrl = async () => {
 			try {
 				const url = `http://localhost:3333/${param.id}/verify/${param.token}`;

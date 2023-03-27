@@ -9,8 +9,8 @@ import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import CropEasy from "../components/ImageCrop/CropEasy";
 
 axios.defaults.withCredentials = true
-const HomePage = ()=>{
-        const [user,setUser] = useState({})
+const HomePage = ({user,getuser})=>{
+        // const [user,setUser] = useState({})
         const [projects,setProjects] = useState([])
         const [cropOpen, setCropOpen] = useState(false);
 
@@ -20,13 +20,7 @@ const HomePage = ()=>{
           const handleClose = () => {
             setCropOpen(false);
           };
-          async function getuser(){
-            const user =  await axios.get(`http://localhost:3333/show-user`,{
-                withCredentials:true,
-                headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'}
-            })
-            setUser(()=> user.data.user )
-        }
+        
     useEffect(()=>{
        
 
@@ -90,7 +84,7 @@ const HomePage = ()=>{
                     <Typography>leaves : 10 </Typography>
                 </Grid>
             </Grid>
-            <NavBar/>
+            <NavBar user = {user}/>
             <h2 style={{marginLeft:"20px"}}>Projects</h2>
             <ProjectsTable projects={projects}/>
         </Box>

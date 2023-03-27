@@ -1,5 +1,4 @@
 import { Cancel } from "@mui/icons-material";
-// import { createContext, useContext } from "react";
 import axios from "axios";
 import CropIcon from "@mui/icons-material/Crop";
 import Dialog from "@mui/material/Dialog";
@@ -7,7 +6,6 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import { getOrientation } from "get-orientation/browser";
-// import { UserContext } from "../../Pages/ReaderDashboard/ReaderDashboard";
 
 import {
   Box,
@@ -20,9 +18,6 @@ import {
 import React, { useState, useCallback } from "react";
 import Cropper from "react-easy-crop";
 import { getCroppedImg, getRotatedImage } from "./CropImage";
-
-//import { useAuth } from "../../context/AuthContext";
-//import getCroppedImg from "./CropImage";
 
 const ORIENTATION_TO_ANGLE = {
   3: 180,
@@ -74,7 +69,7 @@ const CropEasy = ({ cropOpen, handleClickOpen, handleClose,refreshUser }) => {
         withCredentials:false,
     })
       .then((res) => {
-        console.log("!!!!!!--///////////", res.data.secure_url);
+       
         const data = {
           image : res.data.secure_url 
         }
@@ -166,7 +161,6 @@ const CropEasy = ({ cropOpen, handleClickOpen, handleClose,refreshUser }) => {
           ) : (
             <input
               style={{
-                
                 marginTop: "30%",
                 marginLeft: "40%",
               }}

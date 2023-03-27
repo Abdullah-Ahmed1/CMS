@@ -6,7 +6,7 @@ import  { useEffect } from 'react';
 import axios from 'axios'
 
 
-const Hierarchy = ()=>{
+const Hierarchy = ({user})=>{
   
 
     const hierarchy = ['CEO','Engineering Manager','Project Manager', 'Senior Developer','Junior Developer','Intern']
@@ -71,7 +71,7 @@ const Hierarchy = ()=>{
 
     return(
         <>
-         <NavBar/>
+         <NavBar user = {user}/>
             <Grid container flexDirection = {'column'}  justifyContent={'center'} alignItems={'center'}  >
                 {
                     hierarchy.map((item,index)=>{

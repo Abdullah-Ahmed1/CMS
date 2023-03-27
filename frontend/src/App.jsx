@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
 import HomePage from './pages/HomePage'
@@ -21,7 +21,24 @@ import UserProtectedRoute from './components/ProtectedRoutes/UserProtectedRoute'
 
 
 function App() {
-    
+  const [user,setUser] = useState({})
+
+  async function getuser(){
+    const user =  await axios.get(`http://localhost:3333/show-user`,{
+        withCredentials:true,
+        headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'}
+    })
+    setUser(()=> user.data.user )
+}
+
+  useEffect(()=>{
+    axios.get(`http://localhost:3333/show-user`,{
+      withCredentials:true,
+      headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'}
+    }).then((res)=>{
+      setUser(res.data.user)
+    })  
+  },[])
 
   return (
     <div className="App">
@@ -29,9 +46,9 @@ function App() {
       <Router>
         <Routes>
         <Route element={<UserProtectedRoute />}>
-          <Route exact path='/'  element = {<HomePage />}/>
-          <Route exact path='/leave-management'  element = {<LeaveManagementPage  />}/>
-          <Route exact path='/hierarchy'  element = {<Hierarchy  />}/>
+          <Route exact path='/'  element = {<HomePage user = {user} getuser ={getuser}  />}/>
+          <Route exact path='/leave-management'  element = {<LeaveManagementPage user = {user} getuser ={getuser} />}/>
+          <Route exact path='/hierarchy'  element = {<Hierarchy  user = {user} getuser ={getuser} />}/>
         </Route>
       
         <Route exact path='/login'  element = {<LoginForm  />}/>
