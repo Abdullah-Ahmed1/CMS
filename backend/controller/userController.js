@@ -242,7 +242,6 @@ module.exports={
         console.log("reached send email to user route")
         try{
             const users = await User.find();
-            
 
             users.map(async(user)=>{
                  const  emailQueue = new Queue(`${user.firstname} queue`)
@@ -256,12 +255,24 @@ module.exports={
                     emailQueueProcess(job,done)
                 })
             })
-         
-          
-
-
         }catch(err){
             console.log("error is: ",err)
+        }
+    },
+
+    updateProfileImage : async(req,res)=>{
+        console.log("update profile image controller reached")
+        try{
+            const id = res.locals.decodedId
+            await  User.findOneAndUpdate({_id : id},{
+                image : req.body.image
+            })
+
+            return res.status(200).send({
+                message: "image added successfully"
+            })
+        }catch(err){
+            console.log(err)
         }
     }
 }

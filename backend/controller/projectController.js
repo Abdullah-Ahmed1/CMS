@@ -69,6 +69,7 @@ addMemberToPorject : async(req,res)=>{
                     firstname:1,
                     lastname:1,
                     email : 1,
+                    image : 1
                 }  
             })
             .exec()
