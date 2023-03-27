@@ -5,19 +5,30 @@ import Typography from '@mui/material/Typography';
 import { useEffect,useState } from "react";
 import axios from 'axios'
 import ProjectsTable from "../components/Projects";
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import CropEasy from "../components/ImageCrop/CropEasy";
 
 axios.defaults.withCredentials = true
 const HomePage = ()=>{
         const [user,setUser] = useState({})
         const [projects,setProjects] = useState([])
-    useEffect(()=>{
-        async function getuser(){
+        const [cropOpen, setCropOpen] = useState(false);
+
+        const handleClickOpen = () => {
+            setCropOpen(true);
+          };
+          const handleClose = () => {
+            setCropOpen(false);
+          };
+          async function getuser(){
             const user =  await axios.get(`http://localhost:3333/show-user`,{
                 withCredentials:true,
                 headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'}
             })
             setUser(()=> user.data.user )
         }
+    useEffect(()=>{
+       
 
         async function getProjects(){
             const projects =  await axios.get(`http://localhost:3333/projects/show`,{
@@ -34,6 +45,7 @@ const HomePage = ()=>{
 
 
     useEffect(()=>{
+        //-----------just for testing purposes------------------------------
          function b(){
             async function a(){
                 console.log("aa")
@@ -51,13 +63,23 @@ const HomePage = ()=>{
             main()
         }
         b()
+        //-----------------------------------------
+
     },[])
     return(
         <Box sx = {{}}>
             
             <Grid container flexDirection={'row'} sx = {{margin:"100px 100px"}} justifyContent={'center'} alignItems={"center"}>
                 <Grid lg={6}>
-                    <img src="profile.png" alt="profileimage" style={{borderRadius:"100%"}} />
+                    {/* <img src="profile.png" alt="profileimage" style={{borderRadius:"100%"}} /> */}
+                    <div>
+                                <div  style = {{cursor:"pointer"}} >    
+                                <CropEasy  refreshUser = {getuser} cropOpen = {cropOpen} handleClickOpen={handleClickOpen} handleClose={handleClose}  />
+                                <CameraAltIcon  onClick ={handleClickOpen} sx = {{position:"absolute",marginTop:"5px"}} />
+                                
+                                <img  style={{width:"150px",height:"150px",borderRadius:"100%"}}  src={user.image? user.image: "https://res.cloudinary.com/dlgwvuu5d/image/upload/v1663106838/my-uploads/ppp_rufoeg.png"} alt="" />
+                                </div>
+                            </div>
                 </Grid>
                 <Grid lg={5}>
                     <Typography>Fiirstname : {user.firstname} </Typography>
