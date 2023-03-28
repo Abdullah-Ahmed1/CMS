@@ -3,11 +3,10 @@ const  express = require("express")
 const app = express()
 const cors = require('cors')
 require("./connection/connection");
-const {emailQueue,serverAdapter}= require("./processes/main")
+const {serverAdapter}= require("./processes/main")
 const cookieparser  = require("cookie-parser")
 
 //-----------------------
-const { BullAdapter } = require('@bull-board/api/bullAdapter');
 serverAdapter.setBasePath('/admin/queues');
 app.use('/admin/queues', serverAdapter.getRouter());
 //--------------------------

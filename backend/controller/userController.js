@@ -12,6 +12,16 @@ const Queue = require('bull');
 const { BullAdapter } = require('@bull-board/api/bullAdapter');
 const emailQueueProcess = require("../processes/emailQueueProcess")
 
+const Redis = require('redis');
+    const redisClient = Redis.createClient({legacyMode: true,})
+
+async function a(){
+    await redisClient.connect()
+}
+a()
+const DEFAULT_EXPIRATION = 3600
+
+
 module.exports={
     test:(req,res)=>{
         User.create({
@@ -38,7 +48,6 @@ module.exports={
                 message: "something went wrong with validation"
                })
             }
-
         const user =  await User.findOne({
             email: req.body.email
         })
@@ -168,18 +177,32 @@ module.exports={
         }catch(err){
             console.log(err)
         }
-       
     },
 
     getAllUsers:async(req,res)=>{
+        console.log("all user reached")
         try{
-            const users =  await User.find({})
-          return  res.status(200).send({
-                status:"success",
-                users : users
-            })
-
+            redisClient.get('users',async(error,users)=>{
+                if(error) console.log(error)
+                if(users != null){
+                    console.log("userssss : ",JSON.parse(users))
+                    return  res.status(200).send({
+                        status:"success",
+                        users : JSON.parse(users)
+                    })
+                }else{
+                    const users =  await User.find({})
+                    redisClient.setex('users',DEFAULT_EXPIRATION,JSON.stringify(users))
+                  
+                    return  res.status(200).send({
+                        status:"success",
+                        users : users
+                    })
+                }
+                })
         }catch(err){
+           
+            console.log("--->",err)
            return  res.status(400).send({
                 status:"fail",
                 message:"something went wrong"
@@ -188,7 +211,6 @@ module.exports={
     },
 
     getUserById : async(req,res)=>{
-            
         try{
              const id = res.locals.decodedId
 
@@ -246,6 +268,7 @@ module.exports={
             users.map(async(user)=>{
                  const  emailQueue = new Queue(`${user.firstname} queue`)
                  board.addQueue(new BullAdapter(emailQueue)) // for adding queues to bull board
+                 console.log("reacheddddddddddddddd")
                  await emailQueue.add(
                  {"firstname":user.firstname,"lastname":user.lastname,"email":user.email },
                  { repeat: { cron: '* * * * *' } }
