@@ -18,9 +18,6 @@ const LeaveManagementPage = ({user})=>{
           setResports(res.data.reports)
         })
     }
-
-  
-
     useEffect(()=>{
         axios.get(`http://localhost:3333/leaveManagement/getLeaves`,{
             withCredentials:true,

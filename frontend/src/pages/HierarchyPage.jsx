@@ -7,7 +7,6 @@ import axios from 'axios'
 
 
 const Hierarchy = ({user})=>{
-  
 
     const hierarchy = ['CEO','Engineering Manager','Project Manager', 'Senior Developer','Junior Developer','Intern']
     const [people1,setPoeple1] = useState([])
@@ -98,9 +97,6 @@ const Hierarchy = ({user})=>{
                                 }
                                     </Grid>
                                 </Grid>
-                                
-                              
-                                
                             </Grid>
                             </>
                         )

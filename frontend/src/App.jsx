@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
 import './App.css'
 import HomePage from './pages/HomePage'
 import LeaveManagementPage from './pages/LeaveManagementPage'
@@ -15,6 +14,7 @@ import RegisterForm from './pages/RegisterForm'
 import VerifyUser from './pages/VerifyUser'
 import axios from 'axios'
 import UserProtectedRoute from './components/ProtectedRoutes/UserProtectedRoute'
+import NewsPage from './pages/NewsPage';
 
 
 
@@ -49,11 +49,14 @@ function App() {
           <Route exact path='/'  element = {<HomePage user = {user} getuser ={getuser}  />}/>
           <Route exact path='/leave-management'  element = {<LeaveManagementPage user = {user} getuser ={getuser} />}/>
           <Route exact path='/hierarchy'  element = {<Hierarchy  user = {user} getuser ={getuser} />}/>
+          <Route exact path='/news'  element = {<NewsPage user={user} />}/>
         </Route>
       
         <Route exact path='/login'  element = {<LoginForm  />}/>
         <Route exact path='/register'  element = {<RegisterForm  />}/>
-        <Route exact path="/users/:id/verify/:token" element={<VerifyUser/>} />
+        
+        
+        <Route exact path="/users/:id/verify/:token" element={<VerifyUser />} />
 
         </Routes>
       </Router>

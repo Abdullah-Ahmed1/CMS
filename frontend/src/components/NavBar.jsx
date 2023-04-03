@@ -24,6 +24,10 @@ const pages = [
     label:'Hierarchy',
     path : '/hierarchy',
   },
+  {
+    label:'News',
+    path : '/news',
+  },
   
 ];
 const settings = ['Logout'];
