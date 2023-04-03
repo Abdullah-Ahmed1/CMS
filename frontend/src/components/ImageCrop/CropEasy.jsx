@@ -25,7 +25,7 @@ const ORIENTATION_TO_ANGLE = {
   8: -90,
 };
 
-const CropEasy = ({ cropOpen, handleClickOpen, handleClose,refreshUser }) => {
+const CropEasy = ({ cropOpen, handleClickOpen, handleClose, refreshUser }) => {
 
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
@@ -35,7 +35,7 @@ const CropEasy = ({ cropOpen, handleClickOpen, handleClose,refreshUser }) => {
   const [croppedImage, setCroppedImage] = useState(null);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
 
-//--------------------
+  //--------------------
   const [backDropOpen, setBackDropOpen] = React.useState(false);
 
 
@@ -56,41 +56,41 @@ const CropEasy = ({ cropOpen, handleClickOpen, handleClose,refreshUser }) => {
         rotation
       );
 
-      
+
       const formData = new FormData();
       formData.append("file", croppedImage);
       formData.append("upload_preset", "my-uploads"); //via cloudinary
-      
+
 
       setBackDropOpen(true)
       handleClose()
       setUploaded(false);
-      axios.post('https://api.cloudinary.com/v1_1/dlgwvuu5d/image/upload',formData,{
-        withCredentials:false,
-    })
-      .then((res) => {
-       
-        const data = {
-          image : res.data.secure_url 
-        }
-        axios.post(
-            "http://localhost:3333/update-profile-image", data,{
-                withCredentials : true,
-                headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'}
-            }
-          )
-          .then((res) => {
-            refreshUser()
-            
-            setBackDropOpen(false)
+      axios.post('https://api.cloudinary.com/v1_1/dlgwvuu5d/image/upload', formData, {
+        withCredentials: false,
+      })
+        .then((res) => {
 
-          })
-          .catch((err) => console.log("errr", err));
-      });
+          const data = {
+            image: res.data.secure_url
+          }
+          axios.post(
+            "http://localhost:3333/update-profile-image", data, {
+            withCredentials: true,
+            headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' }
+          }
+          )
+            .then((res) => {
+              refreshUser()
+
+              setBackDropOpen(false)
+
+            })
+            .catch((err) => console.log("errr", err));
+        });
     } catch (e) {
       console.error("errrrrrrrrr", e);
     }
- 
+
   };
 
   function readFile(file) {
@@ -118,15 +118,15 @@ const CropEasy = ({ cropOpen, handleClickOpen, handleClose,refreshUser }) => {
   };
 
 
-  
+
 
   return (
     <>
-      
-       <Backdrop
+
+      <Backdrop
         sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={backDropOpen}
-        
+
       >
         <CircularProgress color="inherit" />
       </Backdrop>
