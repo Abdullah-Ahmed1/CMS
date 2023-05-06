@@ -5,6 +5,7 @@ const {authenticateToken} = require('../auth/auth')
 const router = express.Router()
 
 router.route('/test') .get(mainController.test)
+router.route('/test1') .get(mainController.test1)
 router.route('/register') .post(mainController.register)
 router.route('/show-users').get(mainController.getAllUsers)
 router.route('/show-user').get(authenticateToken,mainController.getUserById)

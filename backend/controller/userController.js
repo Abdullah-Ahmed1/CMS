@@ -11,18 +11,16 @@ const {board} = require('../processes/main')
 const Queue = require('bull');
 const { BullAdapter } = require('@bull-board/api/bullAdapter');
 const emailQueueProcess = require("../processes/emailQueueProcess")
+const {emailQueue,redisClient} = require('../processes/main')
 
 const Redis = require('redis');
-    const redisClient = Redis.createClient({legacyMode: true,})
-
-async function a(){
-    await redisClient.connect()
-}
-a()
 const DEFAULT_EXPIRATION = 3600
 
 
 module.exports={
+    test1 : (req,res)=>{
+        console.log("---------->reached test1")
+    },
     test:(req,res)=>{
         User.create({
             firstname:"abdullah",
@@ -36,7 +34,7 @@ module.exports={
         })
     },
 
-    register  :async(req,res)=>{
+    register:async(req,res)=>{
         try{
             console.log("register reached")
             console.log("hashed password is : " , req.body.password)
@@ -51,7 +49,6 @@ module.exports={
         const user =  await User.findOne({
             email: req.body.email
         })
-    
         if(user){
             return   res.status(400).send({
                 status:'bad request',
@@ -73,7 +70,6 @@ module.exports={
         }catch(err){
             console.log(err)
         }
-       
     },
 
     verify : async(req,res)=>{
@@ -89,7 +85,6 @@ module.exports={
               userId: user._id,
               token: temp_token
             });
-
             console.log("token->",token)
             if (!token) return res.status(400).send({ message: "Invalid link" });
             console.log("reached");
@@ -103,8 +98,6 @@ module.exports={
             res.status(500).send({ message: "Internal Server Error", error: error });
           }    
     }
-
-
 ,
     login : async(req,res)=>{
        try{
@@ -148,8 +141,6 @@ module.exports={
             status:"success",
             message: "login sucessfull",
         })
-        
-        
        }catch(err){
         console.log(err)
         return res.status(400).send({
@@ -185,7 +176,6 @@ module.exports={
             redisClient.get('users',async(error,users)=>{
                 if(error) console.log(error)
                 if(users != null){
-                    console.log("userssss : ",JSON.parse(users))
                     return  res.status(200).send({
                         status:"success",
                         users : JSON.parse(users)
@@ -202,7 +192,6 @@ module.exports={
                 })
         }catch(err){
            
-            console.log("--->",err)
            return  res.status(400).send({
                 status:"fail",
                 message:"something went wrong"
@@ -264,20 +253,34 @@ module.exports={
         console.log("reached send email to user route")
         try{
             const users = await User.find();
-
-            users.map(async(user)=>{
-                 const  emailQueue = new Queue(`${user.firstname} queue`)
-                 board.addQueue(new BullAdapter(emailQueue)) // for adding queues to bull board
-                 console.log("reacheddddddddddddddd")
-                 await emailQueue.add(
-                 {"firstname":user.firstname,"lastname":user.lastname,"email":user.email },
-                 { repeat: { cron: '* * * * *' } }
-                 );
-
-                 await emailQueue.process((job,done)=>{
-                    emailQueueProcess(job,done)
+            board.addQueue(new BullAdapter(emailQueue))
+            console.log("----------*-------->reacheddd")
+            emailQueue.add({"firstname":users[0].firstname,"lastname":users[0].lastname,"email":users[0].email },{repeat:{cron:'* * * * *'}})
+            // emailQueue.add({})
+            .catch((err)=>{
+                console.log(err)
+             })
+                console.log("checkpoint-->")
+                emailQueue.getJobCounts()
+                .then((counts)=>{
+                   console.log(counts)
                 })
-            })
+                return res.status(200).send({msg: 'true'})
+             
+            //  emailQueue.getJobCounts().then((counts)=>{
+            //     console.log("job counts : ",counts)
+            //  })
+             
+            // users.map(async(user)=>{
+            //      board.addQueue(new BullAdapter(emailQueue)) // for adding queues to bull board
+            //      console.log("reacheddddddddddddddd")
+            //      await emailQueue.add(
+            //      {"firstname":user.firstname,"lastname":user.lastname,"email":user.email },
+                
+            //      );
+
+                 
+            // })
         }catch(err){
             console.log("error is: ",err)
         }

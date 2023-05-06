@@ -17,11 +17,10 @@ module.exports = {
 }
 ,
 
-addMemberToPorject : async(req,res)=>{
+addMemberToProject : async(req,res)=>{
     const {project_id,user_id} = req.body;
     try{
         console.log("add member to project reached")
-
         const project  =  await Project.findOne({_id:project_id})
 
         if(project){
@@ -44,9 +43,7 @@ addMemberToPorject : async(req,res)=>{
 
                 return res.status(200).send({
                     message:"member added successfully"
-                })
-
-            
+                })            
         }
            return res.status(400).send({
                 message: "Project doesnot exist"
@@ -94,7 +91,6 @@ addMemberToPorject : async(req,res)=>{
             if(item.members.includes(id)){
                 projectIds.push(item._id)
             }
-         
         })
 
         const temp = await Project.find({"_id":{
@@ -108,7 +104,5 @@ addMemberToPorject : async(req,res)=>{
     }catch(err){
         console.log(err)
     }
-    
     }
-
 }

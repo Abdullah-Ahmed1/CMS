@@ -4,13 +4,14 @@
   "description": "my first task",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "nodemon index.js"
   },
   "author": "abdullah ahmed",
   "license": "ISC",
   "dependencies": {
     "@bull-board/express": "^5.0.0",
+    "axios": "^1.4.0",
     "bcrypt": "^5.1.0",
     "bull": "^4.10.4",
     "cookie-parser": "^1.4.6",
@@ -25,5 +26,9 @@
     "nodemailer": "^6.9.1",
     "nodemon": "^2.0.22",
     "redis": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.1",
+    "jest": "^29.5.0"
   }
 }

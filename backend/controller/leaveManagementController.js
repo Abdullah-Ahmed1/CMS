@@ -14,7 +14,7 @@ module.exports = {
                 status : req.body.status,
                 reasonOfLeave : req.body.reason,
                 DaysOfLeave : req.body.days,
-                           })
+            })
 
             res.send({
                 status:"success",
@@ -43,7 +43,8 @@ module.exports = {
         })
     }
     },
-    getReport  : async(req,res)=>{
+    
+    getReport : async(req,res)=>{
         console.log("get leaves route reached")
          try{
             const userId = res.locals.decodedId
@@ -62,9 +63,6 @@ module.exports = {
                 ...FailResponse
             })
         }
-       
-
-        
     }
 
 }

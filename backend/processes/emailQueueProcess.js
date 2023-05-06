@@ -1,8 +1,15 @@
 const sendEmail = require('../utils/SendEmail')
-const emailQueueProcess = async(job,done)=>{
+const { emailQueue } = require('./main')
+const emailQueueProcess = async()=>{
     console.log("reached")
-    await  sendEmail.festiveEmail(job.data.email,'Eid Wishes')
-    done()
+    try{
+        emailQueue.process(async(job,done)=>{
+            await  sendEmail.festiveEmail(job.data.email,'Eid Wishes')
+            done()     
+        })  
+    }catch(err){
+        console.log("----->",err)
+    }
 }
 
 module.exports = emailQueueProcess

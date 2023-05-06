@@ -13,7 +13,7 @@ COPY package*.json /backend/
 RUN npm install --force
 
 # copy local files to app folder
-COPY . /backend/
+COPY . .
 
 EXPOSE 3333
 

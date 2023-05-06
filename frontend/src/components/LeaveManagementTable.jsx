@@ -45,8 +45,6 @@ export default function LeaveManagementTable({ userId, projects, reports, refres
     setDays(event.target.value)
   }
 
-
-
   const handleCloseSnack = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -54,8 +52,6 @@ export default function LeaveManagementTable({ userId, projects, reports, refres
 
     setOpenSnack(false);
   };
-
-
   const handleSubmit = () => {
 
     const data = {
@@ -82,7 +78,6 @@ export default function LeaveManagementTable({ userId, projects, reports, refres
         console.log(err)
       })
   }
-
 
   React.useEffect(() => {
     const getAllDaysInMonth = (month, year) =>
