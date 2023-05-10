@@ -17,11 +17,11 @@ const redisClient = Redis.createClient(
     )
       
       redisClient.connect().then(()=>{
-        console.log("redis connected--------->")
+        // console.log("redis connected--------->")
     
       })
       .catch((err)=>{
-        console.log("redis is not connected : ",err)
+        // console.log("redis is not connected : ",err)
       })
       // console.log(redisClient.connect())
       // redisClient.on("error", (error) => 
@@ -29,19 +29,7 @@ const redisClient = Redis.createClient(
       // );
   const emailQueue = new Queue('emailQueue'
 
-  // {
-  //   redis : {
-  //     redisClient,
-      
-  //       tls: true, enableTLSForSentinelMode: false,
-      
-  //   },
-  //   settings : {
-  //     logging : {
-  //       level : 'debug'
-  //     }
-  //   }
-  // }
+
   )
   emailQueue.on('progress', (job, result) => {console.log(`Job ${job.id} progress with result ${result}`); });
   emailQueue.on('completed', (job, result) => {console.log(`Job ${job.id} completed with result ${result}`); });

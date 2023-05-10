@@ -34,9 +34,6 @@ emailQueue.process(async(job,done)=>{
 )
 app.use(express.json())
 app.use(cookieparser())
-app.get('/',(req,res)=>{
-    console.log("hello world")
-})
 
 const userRouter = require('./routes/userRoute')
 app.use('/',userRouter)
@@ -47,3 +44,5 @@ app.use('/leaveManagement',LeaveMangementRoute)
 app.listen(3333,()=>{
     console.log("app is running on port 3333")
 })
+
+module.exports= app

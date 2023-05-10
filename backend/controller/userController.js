@@ -12,8 +12,9 @@ const Queue = require('bull');
 const { BullAdapter } = require('@bull-board/api/bullAdapter');
 const emailQueueProcess = require("../processes/emailQueueProcess")
 const {emailQueue,redisClient} = require('../processes/main')
-
 const Redis = require('redis');
+const UserControllerDao = require('../dao/userControllerDao');
+const userControllerDao = require("../dao/userControllerDao");
 const DEFAULT_EXPIRATION = 3600
 
 
@@ -35,9 +36,8 @@ module.exports={
     },
 
     register:async(req,res)=>{
+        console.log("reached---->>>>")
         try{
-            console.log("register reached")
-            console.log("hashed password is : " , req.body.password)
             const  { error } = validate(req.body);
             if(error){
                 console.log("error in validation : ",error)
@@ -55,11 +55,10 @@ module.exports={
                 message:'email already exists'    
             })
         }
-            const created =  await User.create(req.body)
-            const token = await new Token({
-                userId: created._id,
-                token: crypto.randomBytes(32).toString("hex"),
-            }).save();
+            // const created =  await User.create(req.body)
+            const created = await  UserControllerDao.createUser(req.body)
+            
+            const token = await UserControllerDao.createToken(created._id)
             const url = `${process.env.BASE_URL}users/${created.id}/verify/${token.token}`;
             const response =  await sendEmail.emailVerification(created.email, "Verify Email", url);
             return res.status(200).send({
@@ -101,26 +100,28 @@ module.exports={
 ,
     login : async(req,res)=>{
        try{
-        console.log(" login reachedddddddd")
-        const user = await User.findOne({
-            email:req.body.email
-        })
-       const validPass  =  await bcrypt.compare(
-            req.body.password,
-            user.password
-          );
-        if(!user)
-           return res.status(400).send({
-                status:"failure",
-                message:"Invalid username or password"
-            })
+            console.log(" login reached",req.body)
+            // const user = await User.findOne({
+            //     email:req.body.email
+            // })
+            const user = await userControllerDao.findUser(req.body.email)
+                console.log("found user",user)
+            if(!user) return res.status(400).send({
+                    status:"failure",
+                    message:"Invalid username or password"
+                })
 
-         if(!validPass){
-           return res.status(400).send({
-                status:"failure",
-                message:"Invalid username or password"
-            })
-        }
+            const validPass = await userControllerDao.passCheck(req.body.password,user.password)     
+                // const validPass  =  await bcrypt.compare(
+                //     req.body.password,
+                //     user.password
+                // );        
+            if(!validPass){
+                return res.status(400).send({
+                        status:"failure",
+                        message:"Invalid username or password"
+                    })
+            }
         
         if(!user.verified){
             return res.status(400).send(({
@@ -202,7 +203,6 @@ module.exports={
     getUserById : async(req,res)=>{
         try{
              const id = res.locals.decodedId
-
             const user =  await User.findById({_id:id})
             .populate({
                 path : 'currentProjects'
@@ -216,8 +216,6 @@ module.exports={
               return  res.status(404).send({
                     status:"not found",
                 })
-            
-           
         }catch(err){
             console.log(err)
             return res.status(400).send({
@@ -239,7 +237,7 @@ module.exports={
                 message:" User deleted successfully"
              })
           } 
-            return res.status(400).send({
+        return res.status(400).send({
                 status:"fail",
                 message:"something went wrong"
              })
