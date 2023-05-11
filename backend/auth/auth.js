@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
   const authenticateToken  =  (req,res,next)=>{
-    console.log(req.body)
+    console.log("========>>>auth middleware reached")
     try{
             const token =  req.cookies.token
             const decoded = jwt.verify(token,process.env.JWT_SECRET)

@@ -48,4 +48,17 @@ module.exports = {
             console.log(err)
         }
     }
+    ,
+    findUserById : async(id)=>{
+        try{
+            const user = await User.findById({ _id: id }).populate({
+                path: "currentProjects",
+              });
+
+              return user
+        }catch(err){
+            consol.log(err)
+        }
+    } 
+
 }

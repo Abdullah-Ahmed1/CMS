@@ -4,19 +4,19 @@ const app = express()
 const cors = require('cors')
 require("./connection/connection");
 const sendEmail = require('./utils/SendEmail')
-const {emailQueue,serverAdapter}= require("./processes/main")
+// const {emailQueue,serverAdapter}= require("./processes/main")
 const cookieparser  = require("cookie-parser")
-const emailQueueProcess = require('./processes/emailQueueProcess') 
+// const emailQueueProcess = require('./processes/emailQueueProcess') 
 
 //-----------------------
-serverAdapter.setBasePath('/admin/queues');
-app.use('/admin/queues', serverAdapter.getRouter());
+// serverAdapter.setBasePath('/admin/queues');
+// app.use('/admin/queues', serverAdapter.getRouter());
 
-emailQueue.process(async(job,done)=>{
-    await  sendEmail.festiveEmail(job.data.email,'Eid Wishes')
-    console.log("job processed --->>")
-    done()     
-})
+// emailQueue.process(async(job,done)=>{
+//     await  sendEmail.festiveEmail(job.data.email,'Eid Wishes')
+//     console.log("job processed --->>")
+//     done()     
+// })
 
 //  emailQueue.process((job,done)=>{
 //     emailQueueProcess(job,done)
@@ -25,10 +25,10 @@ emailQueue.process(async(job,done)=>{
 // }).catch((err)=>{
 //     console.log("error is : ",err)
 // })
-     emailQueue.getJobCounts()
-     .then((counts)=>{
-        console.log(counts)
-     })
+    //  emailQueue.getJobCounts()
+    //  .then((counts)=>{
+    //     console.log(counts)
+    //  })
 //--------------------------
  app.use( cors({ credentials: true, origin: "http://localhost:5173" })
 )
